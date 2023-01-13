@@ -27,8 +27,7 @@ filemtime=`date -r hyrax "+%s"`
 currtime=`date +%s`
 diff=$(( (currtime - filemtime) / 86400 ))
 if [ ! -d "hyrax" ] || [ $diff -gt 0 ]; then
-  helm pull oci://ghcr.io/samvera/charts/hyrax --version 2.0.0 --untar --untardir charts
-  helm repo update
+  helm pull --untar oci://ghcr.io/samvera/hyrax/hyrax-helm --version 1.0.0
 else
   echo 'hyrax chart downloaded today, skipping'
 fi
