@@ -29,4 +29,3 @@ jobs:
     uses: scientist-softserv/actions/.github/workflows/lint.yaml@v0.0.6
     with:
       worker: true
-      platforms: 'linux/amd64'
