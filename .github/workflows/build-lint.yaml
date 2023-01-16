@@ -22,10 +22,10 @@ jobs:
       worker: true
       target: hyrax-base
       workerTarget: hyrax-worker
+      platforms: 'linux/amd64'
 
   lint:
     needs: build
     uses: scientist-softserv/actions/.github/workflows/lint.yaml@v0.0.6
     with:
       worker: true
-      # tag: deca90d9
