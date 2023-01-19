@@ -15,6 +15,7 @@ x-app: &app
     - assets:/app/samvera/hyrax-webapp/public/assets
     - cache:/app/samvera/hyrax-webapp/tmp/cache
     - node:/data/node_modules
+    - uv:/app/samvera/hyrax-webapp/public/uv
     - .:/app/samvera/hyrax-webapp
 
 services:
@@ -38,8 +39,8 @@ services:
   web:
     <<: *app
     command: sh -l -c "bundle && yarn install && bundle exec puma -v -b tcp://0.0.0.0:3000"
-    ports:
-      - "3000:3000"
+    # ports:
+    #   - "3000:3000"
     environment:
       VIRTUAL_HOST: atla.test
       VIRTUAL_PORT: 3000
@@ -60,7 +61,7 @@ services:
   postgres:
     image: postgres:9.6
     environment:
-      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_DB: ${DATABASE_DB}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
       POSTGRES_USER: "${DATABASE_USER}"
     ports:
@@ -101,3 +102,4 @@ volumes:
   assets:
   cache:
   node:
+  uv:
