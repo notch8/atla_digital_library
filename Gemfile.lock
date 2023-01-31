@@ -11,7 +11,7 @@ GIT
 
 GIT
   remote: https://github.com/notch8/bulkrax.git
-  revision: 3b24f566688ff484302bbcd1b370c3a075d7875b
+  revision: c813946ecbb6aec014e47ee78e460b4585c71f46
   branch: atla_tmp
   specs:
     bulkrax (0.1.0)
