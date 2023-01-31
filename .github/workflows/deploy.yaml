@@ -1,0 +1,25 @@
+name: "Deploy"
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deploy to Environment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+      debug_enabled:
+        type: boolean
+        description: 'Run the build with tmate debugging enabled (https://github.com/marketplace/actions/debugging-with-tmate)'
+        required: false
+        default: false
+
+jobs:
+  call-workflow:
+    uses: scientist-softserv/actions/.github/workflows/deploy.yaml@v0.0.6
+    secrets: inherit
+    with:
+      k8s-release-name: ${{ inputs.environment }}
+      k8s-namespace: ${{ inputs.environment }}
