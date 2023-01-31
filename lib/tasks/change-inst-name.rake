@@ -24,7 +24,7 @@ task postcards_unitarian: [:environment] do
 end
   
 desc 'thanksgiving-day-sermons fixes'
-task postcards_unitarian: [:environment] do
+task thanksgiving_day_sermons: [:environment] do
   col = Collection.where(slug: 'thanksgiving-day-sermons').first
   raise 'collection not found' unless col.present?
   
