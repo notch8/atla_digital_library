@@ -20,6 +20,7 @@ class ImportUrlJob < Hyrax::ApplicationJob
 
   # @param [FileSet] file_set
   # @param [Hyrax::BatchCreateOperation] operation
+  # rubocop:disable Metrics/MethodLength
   def perform(file_set, operation, headers = {})
     operation.performing!
     user = User.find_by_user_key(file_set.depositor)
@@ -49,6 +50,7 @@ class ImportUrlJob < Hyrax::ApplicationJob
       end
       return false
     end
+    # rubocop:enable Metrics/MethodLength
 
     # @todo Use Hydra::Works::AddExternalFileToFileSet instead of manually
     #       copying the file here. This will be gnarly.

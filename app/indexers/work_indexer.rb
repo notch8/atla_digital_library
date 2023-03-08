@@ -11,9 +11,13 @@ class WorkIndexer < Hyrax::WorkIndexer
   # this behavior
   include Hyrax::IndexesLinkedMetadata
 
+  # rubocop:disable Metrics/CyclomaticComplexity
+  # rubocop:disable Metrics/PerceivedComplexity
   def generate_solr_document
     super.tap do |solr_doc|
+      # rubocop:disable Layout/LineLength
       if object.thumbnail&.video? || object.resource_type&.include?('MovingImage') || object.types&.include?('Moving Image')
+        # rubocop:enable Layout/LineLength
         solr_doc['thumbnail_path_ss'] = ActionController::Base.helpers.asset_path('video.png')
       elsif object.thumbnail&.audio? || object.resource_type&.include?('Sound') || object.types&.include?('Sound')
         solr_doc['thumbnail_path_ss'] = ActionController::Base.helpers.asset_path('audio.png')
@@ -32,4 +36,6 @@ class WorkIndexer < Hyrax::WorkIndexer
       end
     end
   end
+  # rubocop:enable Metrics/PerceivedComplexity
+  # rubocop:enable Metrics/CyclomaticComplexity
 end

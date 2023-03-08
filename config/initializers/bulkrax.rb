@@ -11,7 +11,7 @@ Bulkrax.setup do |config|
 
   # Field to use during import to identify if the Work or Collection already exists.
   # Default is 'source'.
-  config.system_identifier_field = 'identifier'
+  # config.system_identifier_field = 'identifier'
 
   # Field mappings
   # Create a completely new set of mappings by replacing the whole set as follows
@@ -36,7 +36,7 @@ Bulkrax.setup do |config|
       "date" => { from: ["date"], split: /\s*[;]\s*/ },
       "description" => { from: ["description"] },
       "format_digital" => { from: ["format"], parsed: true, split: /\s*[;]\s*/ },
-      "identifier" => { from: ["identifier"], if: ['match?', /http(s{0,1}):\/\//] },
+      "identifier" => { from: ["identifier"], if: ['match?', /http(s{0,1}):\/\//], source_identifier: true },
       "language" => { from: ["language"], split: /\s*[;]\s*/, parsed: true },
       "publisher" => { from: ["publisher"], split: /\s*[;]\s*/ },
       "related_url" => { from: ["relation"], excluded: true },
