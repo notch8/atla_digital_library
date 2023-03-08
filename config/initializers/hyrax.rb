@@ -49,7 +49,7 @@ Hyrax.config do |config|
 
   # Google Analytics tracking ID to gather usage statistics
   # Only add the ID on production
-  if `hostname`.strip.include?('hyrax-production')
+  if Rails.env == "production"
     config.google_analytics_id = 'UA-93701167-5'
   end
 
