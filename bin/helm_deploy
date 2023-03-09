@@ -24,20 +24,17 @@ DEPLOY_IMAGE="${DEPLOY_IMAGE:-ghcr.io/samvera/hyku}"
 WORKER_IMAGE="${WORKER_IMAGE:-ghcr.io/samvera/hyku/worker}"
 DEPLOY_TAG="${DEPLOY_TAG:-latest}"
 WORKER_TAG="${WORKER_TAG:-$DEPLOY_TAG}"
+echo $DEPLOY_TAG
 
 filemtime=`date -r hyrax "+%s"`
 currtime=`date +%s`
 diff=$(( (currtime - filemtime) / 86400 ))
 if [ ! -d "hyrax" ] || [ $diff -gt 0 ]; then
-  helm chart pull ghcr.io/samvera/hyrax/hyrax-helm:$CHART_VERSION
-  helm chart export ghcr.io/samvera/hyrax/hyrax-helm:$CHART_VERSION
+  helm pull --untar oci://ghcr.io/samvera/hyrax/hyrax-helm --version $CHART_VERSION
   helm repo update
 else
   echo 'hyrax chart downloaded today, skipping'
 fi
-
-envsubst < ops/gitlab-secret.tmpl.yaml > ops/gitlab-secret.yaml
-kubectl apply -f ops/gitlab-secret.yaml
 
 helm upgrade \
     --install \
