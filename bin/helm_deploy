@@ -31,7 +31,6 @@ currtime=`date +%s`
 diff=$(( (currtime - filemtime) / 86400 ))
 if [ ! -d "hyrax" ] || [ $diff -gt 0 ]; then
   helm pull --untar oci://ghcr.io/samvera/hyrax/hyrax-helm --version $CHART_VERSION
-  helm repo update
 else
   echo 'hyrax chart downloaded today, skipping'
 fi
