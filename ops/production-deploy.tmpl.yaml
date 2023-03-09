@@ -164,7 +164,7 @@ worker:
   podSecurityContext: *podSecValues
 
 imagePullSecrets:
-  - name: gitlab
+  - name: github
 
 embargoRelease:
   enabled: false
