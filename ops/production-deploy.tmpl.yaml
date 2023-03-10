@@ -75,8 +75,6 @@ extraEnvVars: &envVars
     value: hydra
   - name: DATABASE_PASSWORD
     value: $DATABASE_PASSWORD
-  - name: DATABASE_URL
-    value: postgresql://hyrax:$DATABASE_PASSWORD@wustl-lib-charlie.codwbwegyfgv.us-east-2.rds.amazonaws.com
   - name: DATABASE_USER
     value: hydra_user
   - name: FCREPO_BASE_PATH
@@ -168,7 +166,7 @@ worker:
   podSecurityContext: *podSecValues
 
 imagePullSecrets:
-  - name: github-registry
+  - name: github
 
 embargoRelease:
   enabled: false
