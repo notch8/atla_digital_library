@@ -4,7 +4,7 @@ RUN apt-get update -qq && \
     apt-get -y install apt-transport-https && \
     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
     echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
-    curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
+    curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
     apt-get update -qq && \
     apt-get install -y \
       build-essential \
@@ -52,6 +52,7 @@ RUN cd /app/samvera/hyrax-webapp && ls -l && bundle install
 ADD . /app/samvera/hyrax-webapp
 RUN npm install shx --global && cd /app/samvera/hyrax-webapp && yarn install
 RUN cd /app/samvera/hyrax-webapp && NODE_ENV=production DB_ADAPTER=nulldb bundle exec rake assets:clobber assets:precompile && ln -s /app/samvera/branding /app/samvera/hyrax-webapp/public/branding
+RUN yarn global add webpack
 EXPOSE 3000
 
 ENTRYPOINT ["hyrax-entrypoint.sh"]

@@ -9,9 +9,16 @@
     "preinstall": "rm -rf /app/samvera/hyrax-webapp/public/uv/*",
     "postinstall": "yarn run uv-install && yarn run uv-config",
     "uv-install": "cp -r ./node_modules/universalviewer/dist ./public/uv",
-    "uv-config": "cp ./config/uv/uv.html ./public/uv/uv.html & cp ./config/uv/uv-config.json ./public/uv/"
+    "uv-config": "cp ./config/uv/uv.html ./public/uv/uv.html"
   },
   "devDependencies": {
-    "shx": "^0.3.2"
+    "less": "^4.0.0",
+    "node-polyfill-webpack-plugin": "2.0.1",
+    "react": "^17.0.0",
+    "shx": "^0.3.2",
+    "webpack": "^4.0.0"
+  },
+  "resolutions": {
+    "webpack": "5.39.1"
   }
 }
