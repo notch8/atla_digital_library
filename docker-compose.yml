@@ -15,7 +15,6 @@ x-app: &app
     - assets:/app/samvera/hyrax-webapp/public/assets
     - cache:/app/samvera/hyrax-webapp/tmp/cache
     - node:/data/node_modules
-    - uv:/app/samvera/hyrax-webapp/public/uv
     - .:/app/samvera/hyrax-webapp
 
 services:
@@ -102,4 +101,3 @@ volumes:
   assets:
   cache:
   node:
-  uv:
