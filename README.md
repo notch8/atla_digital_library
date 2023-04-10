@@ -54,7 +54,7 @@ cd atla_digital_library
 sc up
 ```
 
-The app should now be available at http://localhost:3000.
+The app should now be available at http://atla.test.
 
 #### Run migrations and seed the database
 On the first run, you may need to run some setup:
@@ -76,6 +76,18 @@ In a new tab/window:
 ```
 sc be rails spec
 ```
+
+## Troubleshooting
+- if you see the following error: `mesg: ttyname failed: Inappropriate ioctl for device` and a list of files that already exist, for example `cp: cannot create regular file './public/uv/dist/lib/p-p4r1bdpj.system.entry.js': File exists`
+  - run `yarn` (in local shell, not inside container)
+
+- If you `rails db:seed` will not run, or you get the following bulkrax error when trying to edit an importer: `Faraday::ConnectionFailed in Bulkrax::Importers::Edit`
+  - run `dc restart fcrepo`
+
+- If you are not able to run the seeds/not able to see the seeded importer, run:
+  - `rails hyrax:default_collection_types:create`
+  - `rails hyrax:default_admin_set:create`
+  - `rails db:seed`
 
 ## Statistics Not Updating
 
