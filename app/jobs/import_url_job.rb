@@ -20,7 +20,9 @@ class ImportUrlJob < Hyrax::ApplicationJob
 
   # @param [FileSet] file_set
   # @param [Hyrax::BatchCreateOperation] operation
+  # rubocop:disable Metrics/MethodLength
   def perform(file_set, operation, headers = {})
+    # rubocop:enable Metrics/MethodLength
     operation.performing!
     user = User.find_by_user_key(file_set.depositor)
     begin

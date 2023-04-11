@@ -10,12 +10,17 @@ class WorkIndexer < Hyrax::WorkIndexer
   # Fetch remote labels for based_near. You can remove this if you don't want
   # this behavior
   include Hyrax::IndexesLinkedMetadata
-
+  # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   def generate_solr_document
+    # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     super.tap do |solr_doc|
-      if object.thumbnail&.video? || object.resource_type&.include?('MovingImage') || object.types&.include?('Moving Image')
+      if object.thumbnail&.video? ||
+         object.resource_type&.include?('MovingImage') ||
+         object.types&.include?('Moving Image')
         solr_doc['thumbnail_path_ss'] = ActionController::Base.helpers.asset_path('video.png')
-      elsif object.thumbnail&.audio? || object.resource_type&.include?('Sound') || object.types&.include?('Sound')
+      elsif object.thumbnail&.audio? ||
+            object.resource_type&.include?('Sound') ||
+            object.types&.include?('Sound')
         solr_doc['thumbnail_path_ss'] = ActionController::Base.helpers.asset_path('audio.png')
       elsif object.thumbnail&.mime_type == 'text/html'
         solr_doc['thumbnail_path_ss'] = ActionController::Base.helpers.asset_path('html.png')
