@@ -43,6 +43,9 @@ We distribute two configuration files:
 #### Install Docker
 - Download [Docker Desktop](https://www.docker.com/products/docker-desktop) and log in
 
+#### Configure your local environment
+1. Create an empty `.env.development` file
+
 #### Start the server
 This project has a containerized development environment managed with with `stack_car`.
 
