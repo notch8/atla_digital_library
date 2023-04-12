@@ -1,3 +1,4 @@
+# OVERRIDE Hyrax 2.6.0 to bring back in thumbnail indexing functionality from /services/hyrax/indexes_thumbnails.rb
 # Generated via
 #  `rails generate hyrax:work Work`
 class WorkIndexer < Hyrax::WorkIndexer
@@ -11,18 +12,24 @@ class WorkIndexer < Hyrax::WorkIndexer
   # this behavior
   include Hyrax::IndexesLinkedMetadata
 
-  # rubocop:disable Metrics/CyclomaticComplexity
-  # rubocop:disable Metrics/PerceivedComplexity
+  # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   def generate_solr_document
     super.tap do |solr_doc|
       # rubocop:disable Layout/LineLength
-      if object.thumbnail&.video? || object.resource_type&.include?('MovingImage') || object.types&.include?('Moving Image')
-        # rubocop:enable Layout/LineLength
-        solr_doc['thumbnail_path_ss'] = ActionController::Base.helpers.asset_path('video.png')
-      elsif object.thumbnail&.audio? || object.resource_type&.include?('Sound') || object.types&.include?('Sound')
-        solr_doc['thumbnail_path_ss'] = ActionController::Base.helpers.asset_path('audio.png')
-      elsif object.thumbnail&.mime_type == 'text/html'
-        solr_doc['thumbnail_path_ss'] = ActionController::Base.helpers.asset_path('html.png')
+      # make sure thumbnails are being indexed when they exist. only replace thumbs for these worktypes if they have the default thumbnail
+      if object.thumbnail_id.blank?
+        if object.thumbnail&.video? ||
+           object.resource_type&.include?('MovingImage') ||
+           object.types&.include?('Moving Image')
+          # rubocop:enable Layout/LineLength
+          solr_doc['thumbnail_path_ss'] = ActionController::Base.helpers.asset_path('video.png')
+        elsif object.thumbnail&.audio? ||
+              object.resource_type&.include?('Sound') ||
+              object.types&.include?('Sound')
+          solr_doc['thumbnail_path_ss'] = ActionController::Base.helpers.asset_path('audio.png')
+        elsif object.thumbnail&.mime_type == 'text/html'
+          solr_doc['thumbnail_path_ss'] = ActionController::Base.helpers.asset_path('html.png')
+        end
       end
       if object.transcript_url
         begin
@@ -36,6 +43,5 @@ class WorkIndexer < Hyrax::WorkIndexer
       end
     end
   end
-  # rubocop:enable Metrics/PerceivedComplexity
-  # rubocop:enable Metrics/CyclomaticComplexity
+  # rubocop:enable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
 end

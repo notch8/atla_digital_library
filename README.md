@@ -28,7 +28,9 @@ Atla staff use this repository as their digital library.
   - Hyrax 2.3.3
 
 ### Important URL's
-- Local site: http://atla.test (http://localhost:3000/ if not using dory)
+- Local site
+  - http://atla.test
+  - Without dory: localhost:3000
   - There is no "admin" link so you must go to http://atla.test/dashboard (or http://localhost:3000/dashboard if not using dory) to access the backend
 - Staging site: http://dl-staging.atla.com
 - Production site:
