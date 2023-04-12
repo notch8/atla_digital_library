@@ -17,13 +17,15 @@ class WorkIndexer < Hyrax::WorkIndexer
     super.tap do |solr_doc|
       # rubocop:disable Layout/LineLength
       # make sure thumbnails are being indexed when they exist. only replace thumbs for these worktypes if they have the default thumbnail
-      if object.thumbnail_url.empty?
-        if (object.thumbnail&.video? ||
-            object.resource_type&.include?('MovingImage') ||
-            object.types&.include?('Moving Image'))
+      if object.thumbnail_id.blank?
+        if object.thumbnail&.video? ||
+           object.resource_type&.include?('MovingImage') ||
+           object.types&.include?('Moving Image')
           # rubocop:enable Layout/LineLength
           solr_doc['thumbnail_path_ss'] = ActionController::Base.helpers.asset_path('video.png')
-        elsif object.thumbnail&.audio? || object.resource_type&.include?('Sound') || object.types&.include?('Sound')
+        elsif object.thumbnail&.audio? ||
+              object.resource_type&.include?('Sound') ||
+              object.types&.include?('Sound')
           solr_doc['thumbnail_path_ss'] = ActionController::Base.helpers.asset_path('audio.png')
         elsif object.thumbnail&.mime_type == 'text/html'
           solr_doc['thumbnail_path_ss'] = ActionController::Base.helpers.asset_path('html.png')
