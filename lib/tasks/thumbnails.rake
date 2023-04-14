@@ -49,7 +49,7 @@ namespace :atla do
   # rake atla:update_thumbnail_path_for_one_work[work_id]
   task :update_thumbnail_path_for_one_work, [:work_id] => [:environment] do |t, args|
     begin
-      work = ActiveFedora::Base.find work_id
+      work = ActiveFedora::Base.find args[:work_id]
       next if work.nil?
 
       update_thumbnail_reference(work)
