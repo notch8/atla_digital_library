@@ -36,26 +36,6 @@ GIT
       rubyzip (>= 1.0.0)
 
 GIT
-  remote: https://github.com/samvera-labs/bulkrax
-  revision: d228eb5a3ed5c5bc2183021a29b475b4902af4cc
-  branch: main
-  specs:
-    bulkrax (4.3.0)
-      bagit (~> 0.4)
-      coderay
-      iso8601 (~> 0.9.0)
-      kaminari
-      language_list (~> 1.2, >= 1.2.1)
-      libxml-ruby (~> 3.1.0)
-      loofah (>= 2.2.3)
-      oai (>= 0.4, < 2.x)
-      rack (>= 2.0.6)
-      rails (>= 5.1.6)
-      rdf (>= 2.0.2, < 4.0)
-      rubyzip
-      simple_form
-
-GIT
   remote: https://github.com/samvera-labs/hyrax-iiif_av.git
   revision: 7066aef23c6f7dec0c19626a480a79899b5cf1fb
   branch: uv_meet_av
@@ -231,6 +211,20 @@ GEM
       thor (~> 0.19)
       typhoeus
     builder (3.2.4)
+    bulkrax (4.3.1)
+      bagit (~> 0.4)
+      coderay
+      iso8601 (~> 0.9.0)
+      kaminari
+      language_list (~> 1.2, >= 1.2.1)
+      libxml-ruby (~> 3.1.0)
+      loofah (>= 2.2.3)
+      oai (>= 0.4, < 2.x)
+      rack (>= 2.0.6)
+      rails (>= 5.1.6)
+      rdf (>= 2.0.2, < 4.0)
+      rubyzip
+      simple_form
     byebug (10.0.2)
     cancancan (1.17.0)
     capybara (2.18.0)
@@ -1009,7 +1003,7 @@ DEPENDENCIES
   activerecord-nulldb-adapter
   bixby
   blacklight_range_limit
-  bulkrax!
+  bulkrax (~> 4.3.0)
   byebug
   capybara (~> 2.13)
   coffee-rails (~> 4.2)
