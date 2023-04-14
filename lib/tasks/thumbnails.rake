@@ -5,8 +5,8 @@ namespace :atla do
     # the path should actually point to the "downloads" folder.
     return unless solr_doc['thumbnail_path_ss'].include? 'assets'
 
-    work.thumbnail = ActiveFedora::Base.find work.thumbnail_id
-    work.save
+    work.thumbnail = work.thumbnail_id ? ActiveFedora::Base.find(work.thumbnail_id) : work.file_sets.first
+    work.save if work.thumbnail.present?
   end
 
   desc 'fix the thumbnail paths for all works in the database'
