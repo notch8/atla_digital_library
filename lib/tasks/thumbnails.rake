@@ -44,4 +44,21 @@ namespace :atla do
     puts "THUMBNAIL UPDATES COMPLETE."
     puts "******************************"
   end
+
+  desc 'fix the thumbnail paths for a given work id'
+  # rake atla:update_thumbnail_path_for_one_work[work_id]
+  task :update_thumbnail_path_for_one_work, [:work_id] => [:environment] do |t, args|
+    begin
+      work = ActiveFedora::Base.find work_id
+      next if work.nil?
+
+      update_thumbnail_reference(work)
+    rescue => e
+      puts "******** update_thumbnail_path_for_one_work error: #{e} ********"
+    end
+
+    puts "******************************"
+    puts "THUMBNAIL UPDATE COMPLETE."
+    puts "******************************"
+  end
 end
