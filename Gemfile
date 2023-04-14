@@ -41,6 +41,7 @@ gem 'pronto-flay', require: false
 gem 'pronto-rails_best_practices', require: false
 gem 'pronto-rails_schema', require: false
 gem 'pronto-rubocop', require: false
+gem 'pry-byebug', group: %i[development test]
 gem 'puma', '~> 3.7'
 gem 'riiif', '~> 1.1'
 gem 'rinku'
