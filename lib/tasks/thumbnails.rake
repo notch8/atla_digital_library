@@ -45,7 +45,7 @@ namespace :atla do
     puts "******************************"
   end
 
-  desc 'fix the thumbnail paths for a given work id'
+  desc 'fix the thumbnail path for a given work id'
   # rake atla:update_thumbnail_path_for_one_work[work_id]
   task :update_thumbnail_path_for_one_work, [:work_id] => [:environment] do |t, args|
     begin
