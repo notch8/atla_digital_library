@@ -31,13 +31,9 @@ namespace :atla do
   task :update_thumbnail_paths_per_bulkrax_importer, [:bulkrax_id] => [:environment] do |t, args|
     begin
       Bulkrax::Importer.find(args[:bulkrax_id]).entries.each do |entry|
-        puts "entry.id:: #{entry.id}"
-        # find the related works for those entries
         work = Work.where(identifier: entry.identifier).first
         next if work.nil?
-        # next unless SolrDocument.find(work.id)['thumbnail_path_ss'].include? 'assets'
 
-        # puts "***** updating the thumbnail for #{cc}.id: #{work.id}"
         update_thumbnail_reference(work)
       end
     rescue => e
