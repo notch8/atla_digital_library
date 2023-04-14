@@ -28,7 +28,7 @@ namespace :atla do
 
   desc 'fix the thumbnail paths for the given bulkrax importer id'
   # rake atla:update_thumbnail_paths_per_bulkrax_importer[bulkrax_id]
-  task :update_thumbnail_paths_per_bulkrax_importer, [:bulkrax_id] => [:environment, ] do |t, args|
+  task :update_thumbnail_paths_per_bulkrax_importer, [:bulkrax_id] => [:environment] do |t, args|
     begin
       Bulkrax::Importer.find(args[:bulkrax_id]).entries.each do |entry|
         puts "entry.id:: #{entry.id}"
