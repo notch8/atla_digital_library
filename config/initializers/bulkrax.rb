@@ -45,7 +45,9 @@ Bulkrax.setup do |config|
       "subject" => { from: ["subject"], split: /\s*[;]\s*/, parsed: true},
       "title" => { from: ["title"] },
       "types" => { from: ["type"], split: /\s*[;]\s*/, parsed: true },
-      "remote_files" => { from: ['thumbnail_url'], parsed: true }
+      "remote_files" => { from: ['thumbnail_url'], parsed: true },
+      'parents' => { from: ['parents'], related_parents_field_mapping: true },
+      'children' => { from: ['children'], related_children_field_mapping: true }
     },
     "Bulkrax::CdriParser" => {
       "contributing_institution" => {from: ['publisher'] },
