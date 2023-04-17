@@ -7,6 +7,10 @@ Bulkrax.setup do |config|
     { name: 'CDRI Xml File', class_name: 'Bulkrax::CdriParser', partial: 'cdri_fields' }
   ]
 
+  config.parsers -= [
+    { name: "Bagit", class_name: "Bulkrax::BagitParser", partial: "bagit_fields" }
+  ]
+
   config.default_work_type = 'Work'
 
   # Field to use during import to identify if the Work or Collection already exists.
