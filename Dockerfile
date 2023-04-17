@@ -35,6 +35,13 @@ RUN mkdir -p /app/fits && \
     cd /app/fits && unzip fits-latest.zip && chmod +X /app/fits/fits.sh && \
     cp -r /app/fits/* /usr/local/bin/
 
+# Change the order so exif tool is better positioned and use the biggest size if more than one
+# size exists in an image file (pyramidal tifs mostly)
+COPY --chown=1001:101 ./ops/fits.xml /app/fits/xml/fits.xml
+COPY --chown=1001:101 ./ops/exiftool_image_to_fits.xslt /app/fits/xml/exiftool/exiftool_image_to_fits.xslt
+RUN ln -sf /usr/lib/libmediainfo.so.0 /app/fits/tools/mediainfo/linux/libmediainfo.so.0 && \
+  ln -sf /usr/lib/libzen.so.0 /app/fits/tools/mediainfo/linux/libzen.so.0
+
 COPY ./ops/bin /app/samvera
 ENV PATH="/app/samvera:$PATH"
 ENV RAILS_ROOT="/app/samvera/hyrax-webapp"
