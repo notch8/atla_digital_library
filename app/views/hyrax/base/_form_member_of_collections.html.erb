@@ -16,6 +16,7 @@ HTML Properties:
 <div class="form-group" data-behavior="collection-relationships" data-param-key="<%= f.object.model_name.param_key %>" data-members="<%= f.object.member_of_collections_json %>">
   <div class="form-inline">
       <%= f.label :member_of_collection_ids %>
+      <%# OVERRIDE Hyrax here to change the autocomplete-url and include all collections %>
       <%= f.input_field :member_of_collection_ids,
                   prompt: :translate,
                   data: {
