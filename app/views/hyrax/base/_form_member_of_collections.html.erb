@@ -14,7 +14,6 @@ HTML Properties:
 <h2><%= t("hyrax.works.form.in_collections") %></h2>
 
 <div class="form-group" data-behavior="collection-relationships" data-param-key="<%= f.object.model_name.param_key %>" data-members="<%= f.object.member_of_collections_json %>">
-<%#= raise 'hell' %>
   <div class="form-inline">
       <%= f.label :member_of_collection_ids %>
       <%= f.input_field :member_of_collection_ids,
