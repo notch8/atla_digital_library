@@ -13,9 +13,9 @@ x-app: &app
   # NOTE: all common env variables moved to .env
   volumes:
     - node_modules:/app/samvera/hyrax-webapp/node_modules:cached
-    - uploads:/app/samvera/hyrax-webapp/public/uploads
-    - assets:/app/samvera/hyrax-webapp/public/assets
-    - cache:/app/samvera/hyrax-webapp/tmp/cache
+    - uploads:/app/samvera/hyrax-webapp/public/uploads:cached
+    - assets:/app/samvera/hyrax-webapp/public/assets:cached
+    - cache:/app/samvera/hyrax-webapp/tmp/cache:cached
     - .:/app/samvera/hyrax-webapp
 
 services:
@@ -38,6 +38,8 @@ services:
         condition: service_started
       redis:
         condition: service_started
+      initialize_app:
+        condition: service_completed_successfully
 
   web:
     <<: *app
@@ -58,6 +60,8 @@ services:
         condition: service_started
       worker:
         condition: service_started
+      initialize_app:
+        condition: service_completed_successfully
 
   redis:
     image: redis:3
@@ -106,6 +110,22 @@ services:
       - JAVA_OPTS=${JAVA_OPTS} -Dfcrepo.modeshape.configuration="classpath:/config/file-simple/repository.json" -Dfcrepo.object.directory="/data/objects" -Dfcrepo.binary.directory="/data/binaries"
     ports:
       - "8080"
+
+  initialize_app:
+    <<: *app
+    entrypoint: ["sh", "-c"]
+    command:
+      - >
+        db-migrate-seed.sh
+    depends_on:
+      postgres:
+        condition: service_started
+      solr:
+        condition: service_started
+      fcrepo:
+        condition: service_started
+      redis:
+        condition: service_started
 
 volumes:
   fcrepo:

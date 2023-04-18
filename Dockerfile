@@ -59,4 +59,4 @@ CMD ["bundle", "exec", "puma", "-v", "-b", "tcp://0.0.0.0:3000"]
 
 FROM hyrax-base as hyrax-worker
 ENV MALLOC_ARENA_MAX=2
-CMD bin/worker
+CMD ./bin/worker
