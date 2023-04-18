@@ -6,4 +6,4 @@ else
   puts 'DATABASE_URL not set, no pool change needed'
 end
 
-exec "echo $DATABASE_URL && bundle exec delayed_job_worker_pool ./config/delayed_job_pool.rb"
+exec "echo $DATABASE_URL && bundle exec delayed_job_worker_pool config/delayed_job_pool.rb"

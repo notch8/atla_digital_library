@@ -20,7 +20,6 @@ x-app: &app
 
 services:
   worker:
-    # command: sh -l -c "bundle && bundle exec delayed_job_worker_pool config/delayed_job_pool.rb"
     <<: *app
     build:
       context: .
@@ -85,6 +84,7 @@ services:
     environment:
       VIRTUAL_HOST: solr.atla.test
       VIRTUAL_PORT: 8983
+      OOM: script
     volumes:
       - './solr/conf:/opt/config:delegated'
       - solr:/opt/solr/server/solr/mycores
