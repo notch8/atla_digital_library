@@ -4,22 +4,23 @@ x-app: &app
   build:
     context: .
     target: hyrax-base
+    cache_from:
+        - ghcr.io/scientist-softserv/atla_digital_library:${TAG:-latest}
   # command: sh -l -c "bundle && bundle exec puma -v -b tcp://0.0.0.0:3000"
   image: ghcr.io/scientist-softserv/atla_digital_library:${TAG:-latest}
   env_file:
-    - .env.development
     - .env
   # NOTE: all common env variables moved to .env
   volumes:
+    - node_modules:/app/samvera/hyrax-webapp/node_modules:cached
     - uploads:/app/samvera/hyrax-webapp/public/uploads
     - assets:/app/samvera/hyrax-webapp/public/assets
     - cache:/app/samvera/hyrax-webapp/tmp/cache
-    - node:/data/node_modules
     - .:/app/samvera/hyrax-webapp
 
 services:
   worker:
-    # command: sh -l -c "bundle && bundle exec sidekiq"
+    # command: sh -l -c "bundle && bundle exec delayed_job_worker_pool config/delayed_job_pool.rb"
     <<: *app
     build:
       context: .
@@ -30,10 +31,14 @@ services:
     image: ghcr.io/scientist-softserv/atla_digital_library/worker:${TAG:-latest}
     command: bash -l -c "bundle && yarn install && bin/rails jobs:work"
     depends_on:
-      - solr
-      - fcrepo
-      - postgres
-      - redis
+      postgres:
+        condition: service_started
+      solr:
+        condition: service_started
+      fcrepo:
+        condition: service_started
+      redis:
+        condition: service_started
 
   web:
     <<: *app
@@ -44,11 +49,16 @@ services:
       VIRTUAL_HOST: atla.test
       VIRTUAL_PORT: 3000
     depends_on:
-      - worker
-      - redis
-      - solr
-      - fcrepo
-      - postgres
+      postgres:
+        condition: service_started
+      solr:
+        condition: service_started
+      fcrepo:
+        condition: service_started
+      redis:
+        condition: service_started
+      worker:
+        condition: service_started
 
   redis:
     image: redis:3
@@ -75,7 +85,6 @@ services:
     environment:
       VIRTUAL_HOST: solr.atla.test
       VIRTUAL_PORT: 8983
-      OOM: script
     volumes:
       - './solr/conf:/opt/config:delegated'
       - solr:/opt/solr/server/solr/mycores
@@ -86,9 +95,15 @@ services:
       - /opt/config
 
   fcrepo:
-    image: botimer/fcrepo:4.5.1
+    image: ghcr.io/samvera/fcrepo4:4.7.5
     volumes:
-      - 'fcrepo:/opt/data'
+      - fcrepo:/data:cached
+    env_file:
+      - .env
+    environment:
+      - VIRTUAL_PORT=8080
+      - VIRTUAL_HOST=fcrepo.atla.test
+      - JAVA_OPTS=${JAVA_OPTS} -Dfcrepo.modeshape.configuration="classpath:/config/file-simple/repository.json" -Dfcrepo.object.directory="/data/objects" -Dfcrepo.binary.directory="/data/binaries"
     ports:
       - "8080"
 
@@ -100,4 +115,4 @@ volumes:
   uploads:
   assets:
   cache:
-  node:
+  node_modules:

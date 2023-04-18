@@ -1,9 +1,7 @@
-# NOTE(dewey4iv): overriden from bulkrax gem
 # frozen_string_literal: true
 
 require_dependency 'bulkrax/application_controller'
 require_dependency 'oai'
-require 'fileutils'
 
 module Bulkrax
   class ImportersController < ApplicationController
@@ -24,9 +22,7 @@ module Bulkrax
       if api_request?
         json_response('index')
       else
-        add_breadcrumb t(:'hyrax.controls.home'), main_app.root_path
-        add_breadcrumb t(:'hyrax.dashboard.breadcrumbs.admin'), hyrax.dashboard_path
-        add_breadcrumb 'Importers', bulkrax.importers_path
+        add_importer_breadcrumbs
       end
     end
 
@@ -35,16 +31,11 @@ module Bulkrax
       if api_request?
         json_response('show')
       else
-        add_breadcrumb t(:'hyrax.controls.home'), main_app.root_path
-        add_breadcrumb t(:'hyrax.dashboard.breadcrumbs.admin'), hyrax.dashboard_path
-        add_breadcrumb 'Importers', bulkrax.importers_path
+        add_importer_breadcrumbs
         add_breadcrumb @importer.name
-        @work_entries = @importer.entries
-                                 .where(type: @importer.parser.entry_class.to_s)
-                                 .page(params[:work_entries_page])
-        @collection_entries = @importer.entries
-                                       .where(type: @importer.parser.collection_entry_class.to_s)
-                                       .page(params[:collections_entries_page])
+
+        @work_entries = @importer.entries.where(type: @importer.parser.entry_class.to_s).page(params[:work_entries_page]).per(30)
+        @collection_entries = @importer.entries.where(type: @importer.parser.collection_entry_class.to_s).page(params[:collections_entries_page]).per(30)
       end
     end
 
@@ -54,9 +45,8 @@ module Bulkrax
       if api_request?
         json_response('new')
       else
-        add_breadcrumb t(:'hyrax.controls.home'), main_app.root_path
-        add_breadcrumb t(:'hyrax.dashboard.breadcrumbs.admin'), hyrax.dashboard_path
-        add_breadcrumb 'Importers', bulkrax.importers_path
+        add_importer_breadcrumbs
+        add_breadcrumb 'New'
       end
     end
 
@@ -65,9 +55,9 @@ module Bulkrax
       if api_request?
         json_response('edit')
       else
-        add_breadcrumb t(:'hyrax.controls.home'), main_app.root_path
-        add_breadcrumb t(:'hyrax.dashboard.breadcrumbs.admin'), hyrax.dashboard_path
-        add_breadcrumb 'Importers', bulkrax.importers_path
+        add_importer_breadcrumbs
+        add_breadcrumb @importer.name, bulkrax.importer_path(@importer.id)
+        add_breadcrumb 'Edit'
       end
     end
 
@@ -78,8 +68,9 @@ module Bulkrax
       if api_request?
         return return_json_response unless valid_create_params?
       end
-      file = params.to_unsafe_h[:importer][:parser_fields].delete(:file)
-      cloud_files = params.to_unsafe_h.delete(:selected_files)
+      file = file_param
+      cloud_files = cloud_params
+
       @importer = Importer.new(importer_params)
       field_mapping_params
       @importer.validate_only = true if params[:commit] == 'Create and Validate'
@@ -88,6 +79,8 @@ module Bulkrax
         Bulkrax::ImporterJob.send(@importer.parser.perform_method, @importer.id)
         if api_request?
           json_response('create', :created, 'Importer was successfully created.')
+        elsif @importer.validate_only
+          redirect_to importer_path(@importer.id), notice: 'Importer validation completed. Please review and choose to either Continue with or Discard the import.'
         else
           redirect_to importers_path, notice: 'Importer was successfully created.'
         end
@@ -108,12 +101,12 @@ module Bulkrax
       if api_request?
         return return_json_response unless valid_update_params?
       end
-      # skipped for calls from continue
-      if params[:importer][:parser_fields].present?
-        file = params.to_unsafe_h[:importer][:parser_fields].delete(:file)
-        cloud_files = params.to_unsafe_h.delete(:selected_files)
-        field_mapping_params
-      end
+
+      file = file_param
+      cloud_files = cloud_params
+
+      # Skipped during a continue
+      field_mapping_params if params[:importer][:parser_fields].present?
 
       if @importer.update(importer_params)
         files_for_import(file, cloud_files) unless file.nil? && cloud_files.nil?
@@ -124,8 +117,7 @@ module Bulkrax
         elsif params[:commit] == 'Update and Harvest Updated Items'
           Bulkrax::ImporterJob.perform_later(@importer.id, true)
         # Perform a full metadata and files re-import; do the same for an OAI re-harvest of all items
-        elsif params[:commit] == ('Update and Re-Import (update metadata and replace files)' ||
-                                  'Update and Re-Harvest All Items')
+        elsif params[:commit] == ('Update and Re-Import (update metadata and replace files)' || 'Update and Re-Harvest All Items')
           @importer.parser_fields['replace_files'] = true
           @importer.save
           Bulkrax::ImporterJob.perform_later(@importer.id)
@@ -210,14 +202,13 @@ module Bulkrax
 
       def files_for_import(file, cloud_files)
         return if file.blank? && cloud_files.blank?
-
         @importer[:parser_fields]['import_file_path'] = @importer.parser.write_import_file(file) if file.present?
         if cloud_files.present?
           # For BagIt, there will only be one bag, so we get the file_path back and set import_file_path
           # For CSV, we expect only file uploads, so we won't get the file_path back
           # and we expect the import_file_path to be set already
           target = @importer.parser.retrieve_cloud_files(cloud_files)
-          @importer[:parser_fields]['import_file_path'] = target if target.present?
+          @importer[:parser_fields]['import_file_path'] = target unless target.blank?
         end
         @importer.save
       end
@@ -227,9 +218,17 @@ module Bulkrax
         @importer = Importer.find(params[:id])
       end
 
-      # Only allow a trusted parameter "white list" through.
+      def importable_params
+        params.except(:selected_files)
+      end
+
+      def importable_parser_fields
+        params&.[](:importer)&.[](:parser_fields)&.except(:file)&.keys
+      end
+
+      # Only allow a trusted parameters through.
       def importer_params
-        params.require(:importer).permit(
+        importable_params.require(:importer).permit(
           :name,
           :admin_set_id,
           :user_id,
@@ -239,15 +238,8 @@ module Bulkrax
           :validate_only,
           selected_files: {},
           field_mapping: {},
-          parser_fields: [valid_parser_fields] # NOTE(dewey4iv): overriden from bulkrax gem
+          parser_fields: [importable_parser_fields]
         )
-      end
-
-      # NOTE(dewey4iv): overriden from bulkrax gem
-      # TODO(dewey4iv): we need to upgrade the version of bulkrax.
-      # Upgrading bulkrax was a bigger ask that the time allowed.
-      def valid_parser_fields
-        params&.[](:importer)&.[](:parser_fields)&.keys - ["file"]
       end
 
       def list_external_sets
@@ -267,12 +259,25 @@ module Bulkrax
         @sets
       end
 
+      def file_param
+        params.require(:importer).require(:parser_fields).fetch(:file) if params&.[](:importer)&.[](:parser_fields)&.[](:file)
+      end
+
+      def cloud_params
+        params.permit(selected_files: {}).fetch(:selected_files).to_h if params&.[](:selected_files)
+      end
+
+      # Add the field_mapping from the Bulkrax configuration
       def field_mapping_params
         # @todo replace/append once mapping GUI is in place
-        field_mapping_key = Bulkrax.parsers.map do |m|
-          m[:class_name] if m[:class_name] == params[:importer][:parser_klass]
-        end .compact.first
+        field_mapping_key = Bulkrax.parsers.map { |m| m[:class_name] if m[:class_name] == params[:importer][:parser_klass] }.compact.first
         @importer.field_mapping = Bulkrax.field_mappings[field_mapping_key] if field_mapping_key
+      end
+
+      def add_importer_breadcrumbs
+        add_breadcrumb t(:'hyrax.controls.home'), main_app.root_path
+        add_breadcrumb t(:'hyrax.dashboard.breadcrumbs.admin'), hyrax.dashboard_path
+        add_breadcrumb 'Importers', bulkrax.importers_path
       end
 
       def setup_client(url)
