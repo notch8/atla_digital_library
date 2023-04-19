@@ -3,7 +3,7 @@ module Bulkrax
     # override to swap out the thumbnail_url
     def build_metadata
       self.parsed_metadata = {}
-      parsed_metadata[Bulkrax.system_identifier_field] ||= [record.header.identifier]
+      parsed_metadata[work_identifier] ||= [record.header.identifier]
 
       record.metadata.children.each do |child|
         child.children.each do |node|

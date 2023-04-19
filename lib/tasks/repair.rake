@@ -95,7 +95,7 @@ end
 
 desc 'Update Bulkrax::OaiSetEntry.identifier and Collection system identifier'
 task update_oai_set_entry_and_collection_identifiers: [:environment] do
-  puts "Updating Bulkrax::OaiSetEntry.identifier and Collection.#{Bulkrax.system_identifier_field}"
+  puts "Updating Bulkrax::OaiSetEntry.identifier and Collection.#{work_identifier}"
 
   progress = ProgressBar.create(total: Bulkrax::OaiSetEntry.count, format: "%t %c of %C %a %B %p%%")
   Bulkrax::OaiSetEntry.find_each do |entry|
@@ -103,7 +103,7 @@ task update_oai_set_entry_and_collection_identifiers: [:environment] do
     new_identifier = entry.importer.unique_collection_identifier(entry.identifier)
     contributing_institution = entry.parsed_metadata['contributing_institution']
     collection = nil
-    Collection.where(Bulkrax.system_identifier_field => entry.identifier).each do | c |
+    Collection.where(work_identifier => entry.identifier).each do | c |
       if contributing_institution.present?
         collection = c if contributing_institution.first == c.contributing_institution&.first
       else
@@ -111,9 +111,9 @@ task update_oai_set_entry_and_collection_identifiers: [:environment] do
       end
     end
     metadata = entry.parsed_metadata
-    metadata[Bulkrax.system_identifier_field] = [new_identifier]
+    metadata[work_identifier] = [new_identifier]
     if collection
-      collection.send("#{Bulkrax.system_identifier_field}=", [new_identifier])
+      collection.send("#{work_identifier}=", [new_identifier])
       collection.save
       entry.identifier = new_identifier
       entry.parsed_metadata = metadata
@@ -129,8 +129,8 @@ task list_works_with_mismatched_contributing_institution: [:environment] do
   puts "  use this list to check for items in the wrong collection"
   progress = ProgressBar.create(total: Bulkrax::OaiSetEntry.count, format: "%t %c of %C %a %B %p%%")
   Bulkrax::OaiSetEntry.find_each do |entry|
-    collection = Collection.where(Bulkrax.system_identifier_field => entry.identifier).first
-    puts "Listing collection: #{collection.id} (#{collection.send(Bulkrax.system_identifier_field).first})"
+    collection = Collection.where(work_identifier => entry.identifier).first
+    puts "Listing collection: #{collection.id} (#{collection.send(work_identifier).first})"
     Work.where(member_of_collection_ids_ssim: collection.id).each do | work |
       puts "#{work.id}\n" if work.contributing_institution.first != collection.contributing_institution.first
     end
