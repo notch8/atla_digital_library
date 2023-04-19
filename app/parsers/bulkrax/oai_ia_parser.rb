@@ -5,7 +5,6 @@ module Bulkrax
       OaiIaEntry
     end
 
-    # ?
     def file_set_entry_class; end
 
     def create_collections
