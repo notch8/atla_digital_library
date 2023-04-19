@@ -38,46 +38,51 @@ Atla staff use this repository as their digital library.
 - Delayed Jobs:
 
 ### With Docker
-We distribute two configuration files:
-- `docker-compose.yml` is set up for development / running the specs
-- `docker-compose-prod.yml` is for running the stack in a production setting
+- `docker-compose.yml`
 
 #### Install Docker
 - Download [Docker Desktop](https://www.docker.com/products/docker-desktop) and log in
 
-#### Configure your local environment
-1. Create an empty `.env.development` file
+### Configure Dory
+On OS X or Linux we recommend running Dory. It acts as a proxy allowing you to access domains locally such as hyku.test or tenant.hyku.test, making multitenant development more straightforward and prevents the need to bind ports locally. Be sure to adjust your ~/.dory.yml file to support the .test tld. You can still run in development via docker with out Dory. To do so, copy docker-compose.override-nodory.yml to docker-compose.override.yml before starting doing docker-compose up. You can then see the application t the loopback domain 'lvh.me:3000'.
+
+```sh
+gem install dory
+dory up
+```
 
 #### Start the server
 This project has a containerized development environment managed with with `stack_car`.
 
 ```sh
-git clone git@gitlab.com:notch8/atla_digital_library.git
+git clone git@github.com:scientist-softserv/atla_digital_library.git
 cd atla_digital_library
-sc up
+docker compose pull
+docker compose build
+dory up
+docker compose up
 ```
 
 The app should now be available at http://atla.test.
 
 #### Run migrations and seed the database
-On the first run, you may need to run some setup:
-
-* run database migrations
-* seed the database with collection types and the default admin set
+You should not need to do any of this manual setup due to the initialize_app step in the docker compose file that will run migrations and seed your database automatically, but in case you need to know how to do this manually you can:
 
 ```sh
-sc be rails db:create db:schema:load db:migrate db:seed
+docker compose exec web bash
+bundle exec rails db:create db:schema:load db:migrate db:seed
 ```
 Once these are done, you may need to stop and start the containers to ensure Delayed Job is picking up the database migration.
 
 #### Stop the app and services
-- Press `Ctrl + C` in the window where `sc up` is running
-- When that's done `sc stop` shuts down the running containers
+- Press `Ctrl + C` in the terminal where you started your container with `docker compose up`
+- When that's done `docker compose stop` shuts down the running containers
 
 #### RSpec
 In a new tab/window:
-```
-sc be rails spec
+```sh
+docker compose exec web bash
+rails spec
 ```
 
 ## Troubleshooting
@@ -85,7 +90,7 @@ sc be rails spec
   - run `yarn` (in local shell, not inside container)
 
 - If you `rails db:seed` will not run, or you get the following bulkrax error when trying to edit an importer: `Faraday::ConnectionFailed in Bulkrax::Importers::Edit`
-  - run `dc restart fcrepo`
+  - run `docker compose restart fcrepo`
 
 - If you are not able to run the seeds/not able to see the seeded importer, run:
   - `rails hyrax:default_collection_types:create`

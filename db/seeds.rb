@@ -36,23 +36,52 @@ Rake::Task['hyrax:default_admin_set:create'].invoke
 
 if Rails.env.development?
   Bulkrax::Importer.create(
-    name: "Trinity International University -  Evangelical Beacon",
+    name: "AMBS -  Biblioteca Digital Anabautista",
     admin_set_id: "admin_set/default",
     user_id: 1,
     frequency: "PT0S",
-    parser_klass: "Bulkrax::OaiDcParser",
-    limit: 10,
+    limit: 50,
+    parser_klass: "Bulkrax::OaiIaParser",
     parser_fields:
-      {"base_url"=>"http://collections.carli.illinois.edu/oai/oai.php",
+      {"base_url"=>"https://archive.org/services/oai.php",
        "metadata_prefix"=>"oai_dc",
-       "set"=>"tiu_beacon",
-       "institution_name"=>"Trinity International University Rolfing Library",
+       "set"=>"collection:bibliotecadigitalanabautista",
+       "collection_title"=>"AMBS -  Biblioteca Digital Anabautista",
+       "institution_name"=>"Anabaptist Mennonite Biblical Seminary",
        "rights_statement"=>"http://rightsstatements.org/vocab/UND/1.0/",
        "override_rights_statement"=>"1",
-       "thumbnail_url"=>"http://collections.carli.illinois.edu/utils/getthumbnail/collection/tiu_beacon/id/<%= identifier.split('/').last %>"},
+       "thumbnail_url"=>"https://archive.org/services/img/<%= identifier.split(':').last %>"},
     field_mapping: nil
   )
+
+  if Rails.env.development?
+    Bulkrax::Importer.create(
+      name: "Trinity International University -  Evangelical Beacon",
+      admin_set_id: "admin_set/default",
+      user_id: 1,
+      frequency: "PT0S",
+      parser_klass: "Bulkrax::OaiDcParser",
+      parser_fields:
+        {"base_url"=>"http://collections.carli.illinois.edu/oai/oai.php",
+         "metadata_prefix"=>"oai_dc",
+         "set"=>"tiu_beacon",
+         "collection_title"=>"Trinity International University -  Evangelical Beacon",
+         "institution_name"=>"Trinity International University Rolfing Library",
+         "rights_statement"=>"http://rightsstatements.org/vocab/UND/1.0/",
+         "override_rights_statement"=>"1",
+         "thumbnail_url"=>"http://collections.carli.illinois.edu/utils/getthumbnail/collection/tiu_beacon/id/<%= identifier.split('/').last %>"},
+      field_mapping: nil
+    )
+  end
+
+  # Uncomment if you want the importer to kick off at startup.
+  # begin
+  #   i=Bulkrax::Importer.first
+  #   i.import_collections
+  #   i.import_works
+  # end
 end
+
 # if Rails.env.development?
 #   Harvester.create!(
 #     name: "Princeton Theological Commons - Benson",
