@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 20220609001128) do
     t.datetime "last_succeeded_at"
     t.string "importerexporter_type", default: "Bulkrax::Importer"
     t.integer "import_attempts", default: 0
+    t.index ["importerexporter_id"], name: "index_bulkrax_entries_on_importerexporter_id"
   end
 
   create_table "bulkrax_exporter_runs", force: :cascade do |t|
@@ -95,6 +96,8 @@ ActiveRecord::Schema.define(version: 20220609001128) do
     t.integer "total_file_set_entries", default: 0
     t.integer "processed_works", default: 0
     t.integer "failed_works", default: 0
+    t.integer "processed_children", default: 0
+    t.integer "failed_children", default: 0
     t.index ["importer_id"], name: "index_bulkrax_importer_runs_on_importer_id"
   end
 
