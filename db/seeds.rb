@@ -60,6 +60,7 @@ if Rails.env.development?
       admin_set_id: "admin_set/default",
       user_id: 1,
       frequency: "PT0S",
+      limit: 50,
       parser_klass: "Bulkrax::OaiDcParser",
       parser_fields:
         {"base_url"=>"http://collections.carli.illinois.edu/oai/oai.php",
