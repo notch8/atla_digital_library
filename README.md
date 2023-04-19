@@ -38,13 +38,14 @@ Atla staff use this repository as their digital library.
 - Delayed Jobs:
 
 ### With Docker
+We use docker compose in this repository, the main file is:
 - `docker-compose.yml`
 
 #### Install Docker
 - Download [Docker Desktop](https://www.docker.com/products/docker-desktop) and log in
 
 ### Configure Dory
-On OS X or Linux we recommend running Dory. It acts as a proxy allowing you to access domains locally such as hyku.test or tenant.hyku.test, making multitenant development more straightforward and prevents the need to bind ports locally. Be sure to adjust your ~/.dory.yml file to support the .test tld. You can still run in development via docker with out Dory. To do so, copy docker-compose.override-nodory.yml to docker-compose.override.yml before starting doing docker-compose up. You can then see the application t the loopback domain 'lvh.me:3000'.
+On OS X or Linux we recommend running Dory. It acts as a proxy allowing you to access domains locally such as hyku.test or tenant.hyku.test, making multitenant development more straightforward and prevents the need to bind ports locally. Be sure to [adjust your ~/.dory.yml file to support the .test tld](https://github.com/FreedomBen/dory#config-file). You can still run in development via docker with out Dory. To do so, copy docker-compose.override-nodory.yml to docker-compose.override.yml before starting doing docker-compose up. You can then see the application at the loopback domain 'lvh.me:3000'.
 
 ```sh
 gem install dory
@@ -63,7 +64,7 @@ dory up
 docker compose up
 ```
 
-The app should now be available at http://atla.test.
+The app should now be available at `http://atla.test`.
 
 #### Run migrations and seed the database
 You should not need to do any of this manual setup due to the initialize_app step in the docker compose file that will run migrations and seed your database automatically, but in case you need to know how to do this manually you can:
