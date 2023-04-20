@@ -9,7 +9,6 @@ module Bulkrax
         types.each do |object_type|
           send("create_#{object_type.pluralize}")
         end
-
       end
     end
   end
