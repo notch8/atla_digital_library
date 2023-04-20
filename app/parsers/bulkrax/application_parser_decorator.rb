@@ -3,7 +3,7 @@
 
 module Bulkrax
   class ApplicationParser
-    class ApplicationParserDecorator
+    module ApplicationParserDecorator
       # override create_objects to get the patch from https://github.com/samvera-labs/bulkrax/pull/713
       def create_objects(types = [])
         types.each do |object_type|
