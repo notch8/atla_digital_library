@@ -1,5 +1,5 @@
-# OVERRIDE Bulkrax 4.4.1 to get a patch from Bulkrax 5.0 for create_objects
-# TODO: remove this decorator when upgrading to Bulkrax 5.0
+# OVERRIDE Bulkrax 4.4.1 to get a patch from Bulkrax 5.x.x for create_objects
+# TODO: remove this decorator when upgrading to Bulkrax 5.x.x
 
 module Bulkrax
   class ApplicationParser
