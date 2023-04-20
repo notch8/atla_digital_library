@@ -14,7 +14,7 @@ Bulkrax.setup do |config|
   config.default_work_type = 'Work'
 
   # Field to use during import to identify if the Work or Collection already exists.
-  # Default is 'source'.
+  # Default is 'work_identifier' which is 'source'
   # config.system_identifier_field = 'identifier'
 
   # Field mappings
