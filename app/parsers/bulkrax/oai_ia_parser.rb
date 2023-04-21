@@ -8,17 +8,6 @@ module Bulkrax
       OaiIaEntry
     end
 
-    def create_file_sets; end
-    def create_relationships; end
-    def file_set_entry_class; end
-
-    # override create_objects to get the patch from https://github.com/samvera-labs/bulkrax/pull/713
-    def create_objects(types = [])
-      types.each do |object_type|
-        send("create_#{object_type.pluralize}")
-      end
-    end
-
     def create_collections
       metadata = {
         visibility: 'open',
