@@ -53,7 +53,7 @@ module Bulkrax
           [File.join(files_path,
 raw_metadata_xml["ComponentFileName"].downcase)]
       end
-      parsed_metadata[Bulkrax.system_identifier_field] ||= [self.identifier]
+      parsed_metadata[work_identifier] ||= [self.identifier]
       parsed_metadata['has_manifest'] = "1"
       parsed_metadata
     end
