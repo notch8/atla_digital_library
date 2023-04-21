@@ -31,6 +31,5 @@ module Bulkrax
         increment_counters(index, collection: true)
       end
     end
-
   end
 end
