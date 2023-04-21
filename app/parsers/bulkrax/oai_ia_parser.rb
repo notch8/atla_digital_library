@@ -1,6 +1,4 @@
 # OVERRIDE: Bulkrax 4.4.1 to add collection title, noted below.
-# OVERRIDE: Bulkrax 4.4.1 to get a patch from Bulkrax 5.x.x for create_objects, noted below.
-# TODO: remove create_objects method when upgrading to Bulkrax 5.x.x
 module Bulkrax
   # Parser for the Internet Archive OAI-PMH Endpoint
   class OaiIaParser < OaiDcParser
@@ -18,7 +16,7 @@ module Bulkrax
         next unless collection_name == 'all' || collection_name == set.spec
         unique_collection_identifier = importerexporter.unique_collection_identifier(set.spec)
 
-        # add collection title
+        # override Bulkrax 4.4.2 to add collection title
         metadata[:title] = [parser_fields['collection_title'] || set.name]
         metadata[work_identifier] = [unique_collection_identifier]
 
