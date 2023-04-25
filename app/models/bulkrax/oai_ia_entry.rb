@@ -3,6 +3,7 @@ module Bulkrax
     def build_metadata
       self.parsed_metadata = {}
       parsed_metadata[work_identifier] = [record.header.identifier]
+      parent_collection = 'member_of_collections_attributes'
 
       record.metadata.children.each do |child|
         child.children.each do |node|
@@ -13,6 +14,7 @@ module Bulkrax
 
       parsed_metadata['contributing_institution'] = [contributing_institution]
       parsed_metadata['remote_manifest_url'] ||= build_manifest
+      parsed_metadata['parents'] = parse_parents(parsed_metadata[parent_collection]) if parsed_metadata[parent_collection]
 
       add_visibility
       add_rights_statement
@@ -22,6 +24,10 @@ module Bulkrax
       parsed_metadata['contributor'] = nil
 
       parsed_metadata
+    end
+
+    def parse_parents(data)
+      data&.values&.pluck('id')
     end
 
     def build_manifest
