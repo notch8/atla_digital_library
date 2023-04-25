@@ -50,7 +50,7 @@ Bulkrax.setup do |config|
       "title" => { from: ["title"] },
       "types" => { from: ["type"], split: /\s*[;]\s*/, parsed: true },
       "remote_files" => { from: ['thumbnail_url'], parsed: true },
-      'parents' => { from: ['parents'], related_parents_field_mapping: true },
+      'parents' => { from: ['member_of_collections_attributes'], related_parents_field_mapping: true },
       'children' => { from: ['children'], related_children_field_mapping: true }
     },
     "Bulkrax::CdriParser" => {
