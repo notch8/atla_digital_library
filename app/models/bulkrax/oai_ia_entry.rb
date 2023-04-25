@@ -3,7 +3,6 @@ module Bulkrax
     def build_metadata
       self.parsed_metadata = {}
       parsed_metadata[work_identifier] = [record.header.identifier]
-      parent_collection = 'member_of_collections_attributes'
 
       record.metadata.children.each do |child|
         child.children.each do |node|
@@ -14,7 +13,6 @@ module Bulkrax
 
       parsed_metadata['contributing_institution'] = [contributing_institution]
       parsed_metadata['remote_manifest_url'] ||= build_manifest
-      parsed_metadata['parents'] = parse_parents(parsed_metadata[parent_collection]) if parsed_metadata[parent_collection]
 
       add_visibility
       add_rights_statement
@@ -26,8 +24,12 @@ module Bulkrax
       parsed_metadata
     end
 
-    def parse_parents(data)
-      data&.values&.pluck('id')
+    # OVERRIDE: v4.4.2 Bulkrax::ImportBehavior#add_collections
+    def add_collections
+      return if self.find_collection_ids.blank?
+
+      # we need this mapping to exist so that Bulkrax::ImportBehavior#build_for_importer calls #parent_jobs
+      self.parsed_metadata[related_parents_parsed_mapping] = self.find_collection_ids
     end
 
     def build_manifest
