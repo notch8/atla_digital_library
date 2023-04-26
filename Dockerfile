@@ -1,6 +1,8 @@
 FROM ruby:2.5.3 as hyrax-base
 
-RUN apt-get update -qq && \
+RUN echo "deb http://archive.debian.org/debian/ stretch main" > /etc/apt/sources.list && \
+    echo "deb http://archive.debian.org/debian-security/ stretch/updates main" >> /etc/apt/sources.list && \
+    apt-get update -qq && \
     apt-get -y install apt-transport-https && \
     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
     echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
