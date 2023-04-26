@@ -26,10 +26,10 @@ module Bulkrax
 
     # OVERRIDE: v4.4.2 Bulkrax::ImportBehavior#add_collections
     def add_collections
-      return if self.find_collection_ids.blank?
+      return if find_collection_ids.blank?
 
       # we need this mapping to exist so that Bulkrax::ImportBehavior#build_for_importer calls #parent_jobs
-      self.parsed_metadata[related_parents_parsed_mapping] = self.find_collection_ids
+      parsed_metadata[related_parents_parsed_mapping] = find_collection_ids
     end
 
     def build_manifest
