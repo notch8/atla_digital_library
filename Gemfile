@@ -5,7 +5,9 @@ gem 'rails', '5.1.6'
 
 gem 'activejob-scheduler', git: 'https://github.com/notch8/activejob-scheduler.git'
 gem 'blacklight_range_limit'
-gem 'bulkrax', '~> 4.4.0'
+# TODO: do a new release and use the versioned version of bulkrax when the upgrade work is complete
+gem 'bulkrax', git: 'https://github.com/samvera-labs/bulkrax.git', branch: 'v4.4-patch'
+# gem 'bulkrax', '~> 4.4.0'
 gem 'activerecord-nulldb-adapter'
 gem 'bixby', group: %i[development test]
 gem 'byebug', group: %i[development test]
