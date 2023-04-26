@@ -16,6 +16,8 @@ module AtlaDigitalLibrary
     # -- all .rb files in that directory are automatically loaded.
 
     config.to_prepare do
+      Qa::Authorities::Local::FileBasedAuthority.prepend ::PrependFileBasedAuthority
+
       # Allows us to use decorator files in the app directory
       Dir.glob(File.join(File.dirname(__FILE__), "../app/**/*_decorator*.rb")).sort.each do |c|
         Rails.configuration.cache_classes ? require(c) : load(c)
