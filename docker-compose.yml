@@ -4,8 +4,6 @@ x-app: &app
   build:
     context: .
     target: hyrax-base
-    cache_from:
-        - ghcr.io/scientist-softserv/atla_digital_library:${TAG:-latest}
   # command: sh -l -c "bundle && bundle exec puma -v -b tcp://0.0.0.0:3000"
   image: ghcr.io/scientist-softserv/atla_digital_library:${TAG:-latest}
   env_file:
