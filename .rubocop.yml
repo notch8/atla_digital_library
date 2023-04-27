@@ -33,6 +33,9 @@ Rails/DynamicFindBy:
   Whitelist:
     - find_by_user_key
 
+Style/RedundantSelf:
+  Enabled: false
+
 Layout/LineLength:
   Max: 120
   Exclude:
@@ -83,10 +86,10 @@ RSpec/NamedSubject:
 
 RSpec/DescribeClass:
   Exclude:
-    
+
 RSpec/FilePath:
   Exclude:
-    
+
 RSpec/ExpectActual:
   Exclude:
 
