@@ -77,6 +77,12 @@ Bulkrax.setup do |config|
     # add, remove or override custom mappings for this parser here
   })
 
+  config.field_mappings['Bulkrax::OaiIaParser'] = default_field_mapping.merge({
+    'contributor' => { from: ['contributor'], excluded: true },
+    'date' => { from: ['date'], parsed: true, split: /\s*[;]\s*/ },
+    'format_digital' => { from: ['format'], excluded: true }
+  })
+
   config.field_mappings['Bulkrax::OaiOmekaParser'] = default_field_mapping.merge({
     # add, remove or override custom mappings for this parser here
   })
@@ -103,12 +109,6 @@ Bulkrax.setup do |config|
     'rights_holder' => { from: ['rightsHolder'] },
     'time_period' => { from: ['temporal'], split: /\s*[;]\s*/ },
     'transcript_url' => { from: ['transcript'] }
-  })
-
-  config.field_mappings['Bulkrax::OaiIaParser'] = default_field_mapping.merge({
-    'contributor' => { from: ['contributor'], excluded: true },
-    'date' => { from: ['date'], parsed: true, split: /\s*[;]\s*/ },
-    'format_digital' => { from: ['format'], excluded: true }
   })
 end
 
