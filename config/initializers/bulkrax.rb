@@ -42,7 +42,7 @@ Bulkrax.setup do |config|
     'related_url' => { from: ['relation'], excluded: true },
     'rights_statement' => { from: ['rights'], split: /\s*[;]\s*/ },
     'subject' => { from: ['subject'], split: /\s*[;]\s*/, parsed: true },
-    'title' => { from: ['title'] }
+    'title' => { from: ['title'] },
     'types' => { from: ['type'], split: /\s*[;]\s*/, parsed: true }
   }
 
@@ -82,7 +82,7 @@ Bulkrax.setup do |config|
   })
 
   config.field_mappings['Bulkrax::OaiPtcParser'] = default_field_mapping.merge({
-    config.field_mappings['Bulkrax::OaiPtcParser']['format_original'] = { from: ['format'], parsed: true, split: /\s*[;]\s*/ }
+    'format_original' => { from: ['format'], parsed: true, split: /\s*[;]\s*/ }
   })
   # switch format_digital for format_original
   config.field_mappings['Bulkrax::OaiPtcParser'].delete('format_digital')
