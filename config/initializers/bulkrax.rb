@@ -25,94 +25,91 @@ Bulkrax.setup do |config|
 
   # Add to, or change existing mappings as follows
   #   e.g. to exclude date
-  #   config.field_mappings["Bulkrax::OaiDcParser"]["date"] = { from: ["date"], excluded: true  }
+  #   config.field_mappings["Bulkrax::OaiDcParser"]["date"] = { from: ["date"], excluded: true }
 
-  # To duplicate a set of mappings from one parser to another
-  #   config.field_mappings["Bulkrax::OaiOmekaParser"] = {}
-  #   config.field_mappings["Bulkrax::OaiDcParser"].each {|key,value| config.field_mappings["Bulkrax::OaiOmekaParser"][key] = value }
-
-  config.field_mappings = {
-    # custom base oai mappings
-    "Bulkrax::OaiDcParser" => {
-      "contributor" => { from: ["contributor"], split: /\s*[;]\s*/ },
-      "place"=>{:from=>["coverage"], split: /\s*[;]\s*/},
-      "creator" => { from: ["creator"], split: /\s*[;]\s*/ },
-      "date" => { from: ["date"], split: /\s*[;]\s*/ },
-      "description" => { from: ["description"] },
-      "format_digital" => { from: ["format"], parsed: true, split: /\s*[;]\s*/ },
-      "identifier" => { from: ["identifier"], if: ['match?', /http(s{0,1}):\/\//], source_identifier: true },
-      "language" => { from: ["language"], split: /\s*[;]\s*/, parsed: true },
-      "publisher" => { from: ["publisher"], split: /\s*[;]\s*/ },
-      "related_url" => { from: ["relation"], excluded: true },
-      "rights_statement" => { from: ["rights"], split: /\s*[;]\s*/ },
-      "contributing_institution" => { from: ["source"] },
-      "subject" => { from: ["subject"], split: /\s*[;]\s*/, parsed: true},
-      "title" => { from: ["title"] },
-      "types" => { from: ["type"], split: /\s*[;]\s*/, parsed: true },
-      "remote_files" => { from: ['thumbnail_url'], parsed: true },
-    },
-    "Bulkrax::CdriParser" => {
-      "contributing_institution" => {from: ['publisher'] },
-      "creator" => { from: ["creator"], split: /\s*[;]\s*/ },
-      "date" => { from: ['date', 'pub_date'], split: /\s*[;]\s*/ },
-      "language" => { from: ["language"], parsed: true, split: /\s*,\s*/ },
-      "subject" => { from: ["subject"], parsed: true, split: /\s*[;]\s*/ }
-    },
-    "Bulkrax::OaiIaParser" => {},
-    "Bulkrax::OaiSetsParser" => {},
-    "Bulkrax::OaiOmekaParser" => {},
-    "Bulkrax::OaiPtcParser" => {},
-    "Bulkrax::CsvParser" => {},
-    "Bulkrax::OaiQualifiedDcParser" => {}
+  default_field_mapping = {
+    'contributor' => { from: ['contributor'], split: /\s*[;]\s*/ },
+    'contributing_institution' => { from: ['source'] },
+    'creator' => { from: ['creator'], split: /\s*[;]\s*/ },
+    'date' => { from: ['date'], split: /\s*[;]\s*/ },
+    'description' => { from: ['description'] },
+    'format_digital' => { from: ['format'], parsed: true, split: /\s*[;]\s*/ },
+    'identifier' => { from: ['identifier'], if: ['match?', /http(s{0,1}):\/\//], source_identifier: true },
+    'language' => { from: ['language'], split: /\s*[;]\s*/, parsed: true },
+    'place'=>{:from=>['coverage'], split: /\s*[;]\s*/ },
+    'publisher' => { from: ['publisher'], split: /\s*[;]\s*/ },
+    'remote_files' => { from: ['thumbnail_url'], parsed: true },
+    'related_url' => { from: ['relation'], excluded: true },
+    'rights_statement' => { from: ['rights'], split: /\s*[;]\s*/ },
+    'subject' => { from: ['subject'], split: /\s*[;]\s*/, parsed: true },
+    'title' => { from: ['title'] }
+    'types' => { from: ['type'], split: /\s*[;]\s*/, parsed: true }
   }
 
-  # omeka - uses the same mappings as oai_dc
-  config.field_mappings["Bulkrax::OaiDcParser"].each {|key,value| config.field_mappings["Bulkrax::OaiOmekaParser"][key] = value }
+  config.field_mappings['Bulkrax::CdriParser'] = {
+    'contributing_institution' => {from: ['publisher'] },
+    'creator' => { from: ['creator'], split: /\s*[;]\s*/ },
+    'date' => { from: ['date', 'pub_date'], split: /\s*[;]\s*/ },
+    'language' => { from: ['language'], parsed: true, split: /\s*,\s*/ },
+    'subject' => { from: ['subject'], parsed: true, split: /\s*[;]\s*/ }
+  }
 
-  # sets parser - uses the same mappings as oai_dc
-  config.field_mappings["Bulkrax::OaiDcParser"].each {|key,value| config.field_mappings["Bulkrax::OaiSetsParser"][key] = value }
+  config.field_mappings['Bulkrax::CsvParser'] = default_field_mapping.merge({
+    'abstract' => { from: ['abstract'], excluded: true },
+    'alternative_title' => { from: ['alternative_title'], split: /\s*[;]\s*/ },
+    'children' => { from: ['children'], related_children_field_mapping: true },
+    'contributing_institution' => { from: ['contributing_institution'], split: /\s*[;]\s*/ },
+    'extent' => { from: ['extent'], split: /\s*[;]\s*/ },
+    'format_digital' => { from: ['format', 'format_digital'], parsed: true, split: /\s*[;]\s*/ },
+    'format_original' => { from: ['format_original'], split: /\s*[;]\s*/, parsed: true },
+    'has_manifest' => { from: ['has_manifest'] },
+    'parents' => { from: ['parents'], related_parents_field_mapping: true },
+    'place' => { from: ['place'], split: /\s*[;]\s*/ },
+    'remote_files' => { from: ['thumbnail_url', 'remote_files'], parsed: true },
+    'remote_manifest_url' => { from: ['remote_manifest_url'], split: /\s*[;]\s*/ },
+    'rights_holder' => { from: ['rights_holder'], split: /\s*[;]\s*/ },
+    'rights_statement' => { from: ['rights', 'rights_statement'], split: /\s*[;]\s*/ },
+    'time_period' => { from: ['time_period'], split: /\s*[;]\s*/ },
+    'types' => { from: ['type', 'types', 'resource_type'], split: /\s*[;]\s*/, parsed: true }
+  })
 
-  # csv - custom mappings
-  config.field_mappings["Bulkrax::OaiDcParser"].each {|key,value| config.field_mappings["Bulkrax::CsvParser"][key] = value }
-  config.field_mappings["Bulkrax::CsvParser"]["abstract"] = { from: ["abstract"], excluded: true }
-  config.field_mappings["Bulkrax::CsvParser"]["alternative_title"] = { from: ["alternative_title"], split: /\s*[;]\s*/ }
-  config.field_mappings["Bulkrax::CsvParser"]["contributing_institution"] = { from: ["contributing_institution"], split: /\s*[;]\s*/ }
-  config.field_mappings["Bulkrax::CsvParser"]["extent"] = { from: ["extent"], split: /\s*[;]\s*/ }
-  config.field_mappings["Bulkrax::CsvParser"]["format_digital"] = { from: ["format", "format_digital"], parsed: true, split: /\s*[;]\s*/ }
-  config.field_mappings["Bulkrax::CsvParser"]["format_original"] = { from: ["format_original"], split: /\s*[;]\s*/, parsed: true }
-  config.field_mappings["Bulkrax::CsvParser"]["has_manifest"] = { from: ["has_manifest"] }
-  config.field_mappings["Bulkrax::CsvParser"]["place"] = { from: ["place"], split: /\s*[;]\s*/ }
-  config.field_mappings["Bulkrax::CsvParser"]["remote_files"] = { from: ["thumbnail_url", "remote_files"], parsed: true }
-  config.field_mappings["Bulkrax::CsvParser"]["remote_manifest_url"] = { from: ["remote_manifest_url"], split: /\s*[;]\s*/ }
-  config.field_mappings["Bulkrax::CsvParser"]["rights_holder"] = { from: ["rights_holder"], split: /\s*[;]\s*/ }
-  config.field_mappings["Bulkrax::CsvParser"]["rights_statement"] = { from: ["rights", "rights_statement"], split: /\s*[;]\s*/ }
-  config.field_mappings["Bulkrax::CsvParser"]["time_period"] = { from: ["time_period"], split: /\s*[;]\s*/ }
-  config.field_mappings["Bulkrax::CsvParser"]["types"] = { from: ["type", "types", "resource_type"], split: /\s*[;]\s*/, parsed: true }
+  config.field_mappings['Bulkrax::OaiDcParser'] = default_field_mapping.merge({
+    # add, remove or override custom mappings for this parser here
+  })
 
-  # internet archive - custom mappings - exclude contributor, add date parser
-  config.field_mappings["Bulkrax::OaiDcParser"].each {|key,value| config.field_mappings["Bulkrax::OaiIaParser"][key] = value }
-  config.field_mappings["Bulkrax::OaiIaParser"]["contributor"] = { from: ["contributor"], excluded: true}
-  config.field_mappings["Bulkrax::OaiIaParser"]["date"] = { from: ["date"], parsed: true, split: /\s*[;]\s*/}
-  config.field_mappings["Bulkrax::OaiIaParser"]["format_digital"] = { from: ["format"], excluded: true }
+  config.field_mappings['Bulkrax::OaiOmekaParser'] = default_field_mapping.merge({
+    # add, remove or override custom mappings for this parser here
+  })
 
-  # ptc - custom mappings - switch format_digital for format_original
-  config.field_mappings["Bulkrax::OaiDcParser"].each {|key,value| config.field_mappings["Bulkrax::OaiPtcParser"][key] = value }
-  config.field_mappings["Bulkrax::OaiPtcParser"]["format_original"] = { from: ["format"], parsed: true, split: /\s*[;]\s*/ }
-  config.field_mappings["Bulkrax::OaiPtcParser"].delete("format_digital")
+  config.field_mappings['Bulkrax::OaiPtcParser'] = default_field_mapping.merge({
+    config.field_mappings['Bulkrax::OaiPtcParser']['format_original'] = { from: ['format'], parsed: true, split: /\s*[;]\s*/ }
+  })
+  # switch format_digital for format_original
+  config.field_mappings['Bulkrax::OaiPtcParser'].delete('format_digital')
 
-  # custom mappings for qdc
-  config.field_mappings["Bulkrax::OaiDcParser"].each {|key,value| config.field_mappings["Bulkrax::OaiQualifiedDcParser"][key] = value }
-  config.field_mappings["Bulkrax::OaiQualifiedDcParser"]["abstract"] = { from: ["abstract"], excluded: true }
-  config.field_mappings["Bulkrax::OaiQualifiedDcParser"]["alternative_title"] = { from: ["alternative"], split: /\s*[;]\s*/ }
-  config.field_mappings["Bulkrax::OaiQualifiedDcParser"]["date"] = { from: ["date_created", "date"], split: /\s*[;]\s*/}
-  config.field_mappings["Bulkrax::OaiQualifiedDcParser"]["format_original"] = { from: ['medium'], parsed: true, split: /\s*[;]\s*/ }
-  config.field_mappings["Bulkrax::OaiQualifiedDcParser"]["remote_manifest_url"] = { from: ["hasFormat"] }
-  config.field_mappings["Bulkrax::OaiQualifiedDcParser"]["time_period"] = { from: ["temporal"], split: /\s*[;]\s*/ }
-  config.field_mappings["Bulkrax::OaiQualifiedDcParser"]["extent"] = { from: ["extent"], split: /\s*[;]\s*/ }
-  config.field_mappings["Bulkrax::OaiQualifiedDcParser"]["place"] = { from: ["coverage", "spatial"], split: /\s*[;]\s*/ }
-  config.field_mappings["Bulkrax::OaiQualifiedDcParser"]["remote_files"] = { from: ["thumbnail_url", "hasVersion", "dcterms:hasVersion"], parsed: true }
-  config.field_mappings["Bulkrax::OaiQualifiedDcParser"]["rights_holder"] = { from: ["rightsHolder"] }
-  config.field_mappings["Bulkrax::OaiQualifiedDcParser"]["transcript_url"] = { from: ["transcript"] }
+  config.field_mappings['Bulkrax::OaiSetsParser'] = default_field_mapping.merge({
+    # add, remove or override custom mappings for this parser here
+  })
+
+  config.field_mappings['Bulkrax::OaiQualifiedDcParser'] = default_field_mapping.merge({
+    'abstract' => { from: ['abstract'], excluded: true },
+    'alternative_title' => { from: ['alternative'], split: /\s*[;]\s*/ },
+    'date' => { from: ['date_created', 'date'], split: /\s*[;]\s*/ },
+    'extent' => { from: ['extent'], split: /\s*[;]\s*/ },
+    'format_original' => { from: ['medium'], parsed: true, split: /\s*[;]\s*/ },
+    'place' => { from: ['coverage', 'spatial'], split: /\s*[;]\s*/ },
+    'remote_files' => { from: ['thumbnail_url', 'hasVersion', 'dcterms:hasVersion'], parsed: true },
+    'remote_manifest_url' => { from: ['hasFormat'] },
+    'rights_holder' => { from: ['rightsHolder'] },
+    'time_period' => { from: ['temporal'], split: /\s*[;]\s*/ },
+    'transcript_url' => { from: ['transcript'] }
+  })
+
+  config.field_mappings['Bulkrax::OaiIaParser'] = default_field_mapping.merge({
+    'contributor' => { from: ['contributor'], excluded: true },
+    'date' => { from: ['date'], parsed: true, split: /\s*[;]\s*/ },
+    'format_digital' => { from: ['format'], excluded: true }
+  })
 end
 
 # Verify that scheduled jobs get created when needed
