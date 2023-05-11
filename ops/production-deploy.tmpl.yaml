@@ -77,18 +77,12 @@ extraEnvVars: &envVars
     value: $DATABASE_PASSWORD
   - name: DATABASE_USER
     value: hydra_user
-  - name: DB_HOST
-    value: hyrax20181216.cn4nhxyoxlnu.us-west-2.rds.amazonaws.com
-  - name: DB_PORT
-    value: '5432'
   - name: FCREPO_BASE_PATH
     value: /prod
   - name: FCREPO_HOST
     value: fcrepo.default
   - name: FCREPO_PATH
     value: /rest
-  - name: FCREPO_PORT
-    value: '8080'
   - name: FEDORA_URL
     value: http://fcrepo.default:8080/rest
   - name: INITIAL_ADMIN_EMAIL
