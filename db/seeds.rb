@@ -1,40 +1,49 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
-User.where(email: 'rob@notch8.com').first_or_create do |f|
-  f.password = 'testing123'
-  f.admin_area = true
-end
+ActiveFedora.fedora.connection.send(:init_base_path)
+
+puts "\n== Creating default collection types"
+Hyrax::CollectionType.find_or_create_default_collection_type
+Hyrax::CollectionType.find_or_create_admin_set_type
+
+puts "\n== Loading workflows"
+Hyrax::Workflow::WorkflowImporter.load_workflows
+errors = Hyrax::Workflow::WorkflowImporter.load_errors
+abort("Failed to process all workflows:\n  #{errors.join('\n  ')}") unless errors.empty?
+
+puts "\n== Creating default admin set"
+admin_set_id = AdminSet.find_or_create_default_admin_set_id
+
+# I have found that when I come back to a development
+# environment, that I may have an AdminSet in Fedora, but it is
+# not indexed in Solr.  This remediates that situation by
+# ensuring we have an indexed AdminSet
+puts "\n== Ensuring the found or created admin set is indexed"
+AdminSet.find(admin_set_id).update_index
 
 if Rails.env.development?
+  User.where(email: 'rob@notch8.com').first_or_create do |f|
+    f.password = 'testing123'
+    f.admin_area = true
+  end
+
   User.where(email: 'archivist1@example.com').first_or_create do |f|
     f.password = 'Ka55ttp72'
   end
-end
 
-User.where(email: 'acarter@atla.com').first_or_create do |f|
-  f.password = 'Ka55ttp72'
-  f.admin_area = true
-end
+  User.where(email: 'acarter@atla.com').first_or_create do |f|
+    f.password = 'Ka55ttp72'
+    f.admin_area = true
+  end
 
-User.where(email: 'ckarpinski@atla.com').first_or_create do |f|
-  f.password = 'Ka55ttp72'
-  f.admin_area = true
-end
+  User.where(email: 'ckarpinski@atla.com').first_or_create do |f|
+    f.password = 'Ka55ttp72'
+    f.admin_area = true
+  end
 
-User.where(email: 'jbutler@atla.com').first_or_create do |f|
-  f.password = 'Ka55ttp72'
-  f.admin_area = true
-end
+  User.where(email: 'jbutler@atla.com').first_or_create do |f|
+    f.password = 'Ka55ttp72'
+    f.admin_area = true
+  end
 
-Rake::Task['hyrax:default_collection_types:create'].invoke
-Rake::Task['hyrax:default_admin_set:create'].invoke
-
-if Rails.env.development?
   Bulkrax::Importer.find_or_create_by(name: 'Trinity International University - Evangelical Beacon') do |importer|
     importer.admin_set_id = "admin_set/default",
     importer.user_id = 1,
