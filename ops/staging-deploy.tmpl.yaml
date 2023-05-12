@@ -82,11 +82,11 @@ extraEnvVars: &envVars
   - name: FCREPO_BASE_PATH
     value: /staging
   - name: FCREPO_HOST
-    value: fcrepo.default
+    value: fcrepo.default.svc.cluster.local
   - name: FCREPO_PATH
     value: /rest
   - name: FEDORA_URL
-    value: http://fcrepo.default:8080/rest
+    value: http://fcrepo.default.svc.cluster.local:8080/rest
   - name: INITIAL_ADMIN_EMAIL
     value: support@notch8.com
   - name: INITIAL_ADMIN_PASSWORD
@@ -107,6 +107,8 @@ extraEnvVars: &envVars
     value: "true"
   - name: HYRAX_FITS_PATH
     value: /app/fits/fits.sh
+  - name: SOLR_ADMIN_PASSWORD
+    value: $SOLR_ADMIN_PASSWORD
   - name: SMTP_ADDRESS
     value: smtp.mailtrap.io
   - name: SMTP_DOMAIN
@@ -128,11 +130,11 @@ extraEnvVars: &envVars
   - name: SOLR_CONFIGSET_NAME
     value: hyrax
   - name: SOLR_HOST
-    value: solr.default
+    value: solr.default.svc.cluster.local
   - name: SOLR_PORT
     value: "8983"
   - name: SOLR_URL
-    value: http://admin:$SOLR_ADMIN_PASSWORD@solr.default:8983/solr/hyrax-staging
+    value: http://admin:$SOLR_ADMIN_PASSWORD@solr.default.svc.cluster.local:8983/solr/hyrax-staging
   - name: RAILS_CACHE_STORE_URL
     value: redis://:$REDIS_PASSWORD@staging-redis-master:6379/hyrax
   - name: REDIS_PASSWORD
@@ -179,23 +181,25 @@ fcrepo:
       memory: "2Gi"
       cpu: "1"
   enabled: false
+  restPath: '/rest'
+fcrepoBasePathOverride: /staging
+externalFcrepoHost: fcrepo.default.svc.cluster.local
+
 postgresql:
   enabled: false
-solr:
-  enabled: false
-redis:
-  cluster:
-    enabled: false
-  password: $REDIS_PASSWORD
-
-externalFcrepoHost: fcrepo.default.svc.cluster.local
 externalPostgresql:
   host: hyrax20181216.cn4nhxyoxlnu.us-west-2.rds.amazonaws.com
   username: hydra_user
   password: $DATABASE_PASSWORD
   database: hydra_staging
 
+redis:
+  cluster:
+    enabled: false
+  password: $REDIS_PASSWORD
 
+solr:
+  enabled: false
 externalSolrHost: solr.default.svc.cluster.local
 externalSolrUser: admin
 externalSolrCollection: "hyrax-staging"
