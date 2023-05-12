@@ -69,6 +69,22 @@ extraEnvVars: &envVars
     value: "/app/samvera/hyrax-webapp/solr/conf"
   - name: DATABASE_ADAPTER
     value: postgresql
+  - name: DATABASE_HOST
+    value: hyrax20181216.cn4nhxyoxlnu.us-west-2.rds.amazonaws.com
+  - name: DATABASE_NAME
+    value: hydra
+  - name: DATABASE_PASSWORD
+    value: $DATABASE_PASSWORD
+  - name: DATABASE_USER
+    value: hydra_user
+  - name: FCREPO_BASE_PATH
+    value: /prod
+  - name: FCREPO_HOST
+    value: fcrepo.default
+  - name: FCREPO_PATH
+    value: /rest
+  - name: FEDORA_URL
+    value: http://fcrepo.default:8080/rest
   - name: INITIAL_ADMIN_EMAIL
     value: support@notch8.com
   - name: INITIAL_ADMIN_PASSWORD
@@ -78,6 +94,8 @@ extraEnvVars: &envVars
   - name: LD_LIBRARY_PATH
     value: /app/fits/tools/mediainfo/linux
   - name: PASSENGER_APP_ENV
+    value: production
+  - name: RAILS_ENV
     value: production
   - name: RAILS_LOG_TO_STDOUT
     value: "true"
@@ -103,10 +121,30 @@ extraEnvVars: &envVars
     value: AKIAJ2P27AKGIPDXBOUA
   - name: SMTP_STARTTLS
     value: "true"
+  - name: SOLR_ADMIN_USER
+    value: admin
+  - name: SOLR_ADMIN_PASSWORD
+    value: $SOLR_ADMIN_PASSWORD
+  - name: SOLR_COLLECTION_NAME
+    value: hyrax
+  - name: SOLR_CONFIGSET_NAME
+    value: hyrax
+  - name: SOLR_HOST
+    value: solr.default.svc.cluster.local
+  - name: SOLR_PORT
+    value: "8983"
+  - name: SOLR_URL
+    value: http://admin:$SOLR_ADMIN_PASSWORD@solr.default:8983/solr/hyrax
   - name: RAILS_CACHE_STORE_URL
     value: redis://:$REDIS_PASSWORD@production-redis-master:6379/hyrax
   - name: REDIS_PASSWORD
     value: $REDIS_PASSWORD
+  - name: REDIS_HOST
+    value: production-redis-master
+  - name: REDIS_URL
+    value: redis://:$REDIS_PASSWORD@production-redis-master
+  - name: SECRET_KEY_BASE
+    value: $SECRET_KEY_BASE
   - name: SENTRY_DSN
     value: https://bd539e7a5436434dac5abfdab595731a@o1008683.ingest.sentry.io/6745022
   - name: DISABLE_SPRING
