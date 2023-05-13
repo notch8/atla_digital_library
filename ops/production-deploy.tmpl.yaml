@@ -69,15 +69,15 @@ extraEnvVars: &envVars
   - name: CONFDIR
     value: '/app/samvera/hyrax-webapp/solr/conf'
   - name: DB_HOST
-    value: 'hyrax20181216.cn4nhxyoxlnu.us-west-2.rds.amazonaws.com'
+    value: hyrax20181216.cn4nhxyoxlnu.us-west-2.rds.amazonaws.com
   - name: DB_PORT
     value: '5432'
   - name: DB_USERNAME
-    value: 'hydra_user'
+    value: hydra_user
   - name: DISABLE_SPRING
     value: '1'
   - name: FCREPO_HOST
-    value: 'fcrepo.default.svc.cluster.local'
+    value: fcrepo.default
   - name: FCREPO_PORT
     value: '8080'
   - name: HYRAX_FITS_PATH
@@ -119,9 +119,9 @@ extraEnvVars: &envVars
   - name: SMTP_USER_NAME
     value: AKIAJ2P27AKGIPDXBOUA
   - name: SOLR_CONFIGSET_NAME
-    value: 'production-hyrax'
+    value: production-hyrax
   - name: SOLR_HOST
-    value: 'solr.default.svc.cluster.local'
+    value: solr.default
   - name: SOLR_PORT
     value: '8983'
 
@@ -150,9 +150,9 @@ leaseRelease:
 postgresql:
   enabled: false
 externalPostgresql:
-  host: 'hyrax20181216.cn4nhxyoxlnu.us-west-2.rds.amazonaws.com'
-  database: 'hydra'
-  username: 'hydra_user'
+  host: hyrax20181216.cn4nhxyoxlnu.us-west-2.rds.amazonaws.com
+  database: hydra
+  username: hydra_user
   password: $DATABASE_PASSWORD
 
 fcrepo:
@@ -165,19 +165,20 @@ fcrepo:
       cpu: '1'
   enabled: false
   restPath: '/rest'
-externalFcrepoHost: 'fcrepo.default.svc.cluster.local'
-fcrepoBasePathOverride: '/prod'
+externalFcrepoHost: fcrepo.default.svc.cluster.local
+fcrepoBasePathOverride: /prod
 
 redis:
   cluster:
     enabled: false
   password: $REDIS_PASSWORD
 
-fullnameOverride: 'production-hyrax' # SOLR_CONFIGSET_NAME
+# SOLR_CONFIGSET_NAME = .Values.fullnameOverride
+fullnameOverride: production-hyrax
 
 solr:
   enabled: false
-externalSolrHost: 'solr.default.svc.cluster.local'
-externalSolrUser: 'admin'
+externalSolrHost: solr.default.svc.cluster.local
+externalSolrUser: admin
 externalSolrPassword: $SOLR_ADMIN_PASSWORD
-externalSolrCollection: 'hyrax'
+externalSolrCollection: hyrax
