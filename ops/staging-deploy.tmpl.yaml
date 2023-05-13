@@ -68,6 +68,8 @@ ingress:
 extraEnvVars: &envVars
   - name: CONFDIR
     value: '/app/samvera/hyrax-webapp/solr/conf'
+  - name: DB_USERNAME
+    value: 'hydra_user'
   - name: DISABLE_SPRING
     value: '1'
   - name: HYRAX_FITS_PATH
@@ -108,6 +110,8 @@ extraEnvVars: &envVars
     value: login
   - name: SMTP_USER_NAME
     value: AKIAJ2P27AKGIPDXBOUA
+  - name: SOLR_CONFIGSET_NAME
+    value: 'hyrax'
 
 worker:
   replicaCount: 1
@@ -156,8 +160,6 @@ redis:
   cluster:
     enabled: false
   password: $REDIS_PASSWORD
-
-fullnameOverride: 'hyrax' # SOLR_CONFIGSET_NAME
 
 solr:
   enabled: false
