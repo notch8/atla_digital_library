@@ -68,10 +68,18 @@ ingress:
 extraEnvVars: &envVars
   - name: CONFDIR
     value: '/app/samvera/hyrax-webapp/solr/conf'
+  - name: DB_HOST
+    value: 'hyrax20181216.cn4nhxyoxlnu.us-west-2.rds.amazonaws.com'
+  - name: DB_PORT
+    value: '5432'
   - name: DB_USERNAME
     value: 'hydra_user'
   - name: DISABLE_SPRING
     value: '1'
+  - name: FCREPO_HOST
+    value: 'fcrepo.default.svc.cluster.local'
+  - name: FCREPO_PORT
+    value: '8080'
   - name: HYRAX_FITS_PATH
     value: /app/fits/fits.sh
   - name: INITIAL_ADMIN_EMAIL
@@ -112,6 +120,10 @@ extraEnvVars: &envVars
     value: AKIAJ2P27AKGIPDXBOUA
   - name: SOLR_CONFIGSET_NAME
     value: 'hyrax'
+  - name: SOLR_HOST
+    value: 'solr.default.svc.cluster.local'
+  - name: SOLR_PORT
+    value: '8983'
 
 worker:
   replicaCount: 1
