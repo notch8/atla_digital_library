@@ -1,0 +1,63 @@
+  DB_HOST: {{ template "hyrax.postgresql.host" . }} # .Values.externalPostgresql.host
+  DB_PORT: "5432"
+  DB_USERNAME: {{ template "hyrax.postgresql.database" . }} # .Values.externalPostgresql.database
+
+  HYRAX_BRANDING_PATH: "/app/samvera/branding"
+  HYRAX_DERIVATIVES_PATH: "/app/samvera/derivatives"
+  HYRAX_CACHE_PATH: "/app/samvera/file_cache"
+  HYRAX_UPLOAD_PATH: "/app/samvera/uploads"
+
+  RACK_ENV: production
+  RAILS_ENV: production
+
+  REDIS_HOST: {{ template "hyrax.redis.host" . }} # staging-redis-master or production-redis-master
+
+# {{- define "hyrax.redis.host" -}}
+# {{- printf "%s-master" (include "hyrax.redis.fullname" .) -}} # staging-redis-master or production-redis-master
+# {{- end -}}
+
+# {{- define "hyrax.redis.fullname" -}}
+# {{- printf "%s-%s" .Release.Name "redis" | trunc 63 | trimSuffix "-" -}} # staging-redis or production-redis
+# {{- end -}}
+
+  FCREPO_HOST: {{ template "hyrax.fcrepo.host" . }} # .Values.externalFcrepoHost
+  FCREPO_BASE_PATH: {{ .Values.fcrepoBasePathOverride | default (printf "/%s" (include "hyrax.fullname" .)) | quote }} # .Values.fcrepoBasePathOverride
+  FCREPO_PORT: {{ .Values.fcrepo.servicePort | default 8080 | quote }} # .Values.fcrepo.servicePort
+  FCREPO_REST_PATH: {{ .Values.fcrepo.restPath | default "rest" }} # .Values.fcrepo.restPath
+  REDIS_PROVIDER: SIDEKIQ_REDIS_URL
+  # SKIP_HYRAX_ENGINE_SEED: {{  .Values.skipHyraxEngineSeed | default 0 | quote }}
+  SOLR_ADMIN_USER: {{ template "hyrax.solr.username" . }} # .Values.externalSolrUser
+  SOLR_COLLECTION_NAME: {{ template "hyrax.solr.collectionName" . }} # .Values.externalSolrCollection
+  SOLR_CONFIGSET_NAME: {{ template "hyrax.fullname" . }} # .Values.fullnameOverride if set or ????????
+
+#   {{/*
+# Create a default fully qualified app name.
+# We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+# If release name contains chart name it will be used as a full name.
+# */}}
+# {{- define "hyrax.fullname" -}}
+# {{- if .Values.fullnameOverride }}
+# {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
+# {{- else }}
+# {{- $name := default .Chart.Name .Values.nameOverride }}
+# {{- if contains $name .Release.Name }}
+# {{- .Release.Name | trunc 63 | trimSuffix "-" }}
+# {{- else }}
+# {{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" }}
+# {{- end }}
+# {{- end }}
+# {{- end }}
+
+  SOLR_HOST: {{ template "hyrax.solr.host" . }} # .Values.externalSolrHost
+  SOLR_PORT: "8983"
+  SOLR_URL: {{ template "hyrax.solr.url" . }}
+  {{- printf "http://%s:%s@%s:%s/solr/%s" (include "hyrax.solr.username" .) (include "hyrax.solr.password" .) (include "hyrax.solr.host" .) "8983" (include "hyrax.solr.collectionName" .)  -}}
+
+  SECRET_KEY_BASE: {{ randAlphaNum 20 | b64enc | quote }} # Random
+  DB_PASSWORD: {{ include "hyrax.postgresql.password" . | b64enc }} # .Values.externalSolrPassword
+  DATABASE_URL: {{ printf "postgresql://%s:%s@%s/%s?pool=5" ( include "hyrax.postgresql.username" . ) ( include "hyrax.postgresql.password" . ) ( include "hyrax.postgresql.host" . ) ( include "hyrax.postgresql.database" . ) | b64enc }}
+  {{- if .Values.minio.enabled }}
+  # .Values.externalPostgresql.username/.Values.externalPostgresql.password/.Values.externalPostgresql.host/.Values.externalPostgresql.database
+  SOLR_ADMIN_PASSWORD: {{ include "hyrax.solr.password" . | b64enc }} # .Values.externalSolrPassword
+  REDIS_PASSWORD: {{ .Values.redis.password | b64enc}} # Values.redis.password
+  SIDEKIQ_REDIS_URL: {{ include "hyrax.redis.url" . | b64enc }} # "redis://:%s@%s:%s" .Values.redis.password (include "hyrax.redis.host" .)
