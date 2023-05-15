@@ -84,9 +84,9 @@ extraEnvVars: &envVars
   - name: FCREPO_HOST
     value: fcrepo.default
   - name: FCREPO_PATH
-    value: /fcrepo/rest
+    value: rest
   - name: FEDORA_URL
-    value: http://fcrepo.default:8080/fcrepo/rest
+    value: http://fcrepo.default:8080/rest
   - name: INITIAL_ADMIN_EMAIL
     value: support@notch8.com
   - name: INITIAL_ADMIN_PASSWORD
@@ -121,6 +121,8 @@ extraEnvVars: &envVars
     value: cram_md5
   - name: SMTP_USER_NAME
     value: 857d9918238540
+  - name: SOLR_ADMIN_PASSWORD
+    value: $SOLR_ADMIN_PASSWORD
   - name: SOLR_ADMIN_USER
     value: admin
   - name: SOLR_COLLECTION_NAME
