@@ -96,4 +96,6 @@ fits.log
 # yarn artifacts
 *node_modules*
 public/uv/
+/hyrax
+scratch
 *~undo-tree~
