@@ -76,10 +76,16 @@ extraEnvVars: &envVars
     value: hydra_user
   - name: DISABLE_SPRING
     value: '1'
+  - name: FCREPO_BASE_PATH
+    value: /prod
   - name: FCREPO_HOST
     value: fcrepo.default
+    - name: FCREPO_PATH
+    value: /rest
   - name: FCREPO_PORT
     value: '8080'
+  - name: FEDORA_URL
+    value: http://fcrepo.default:8080/rest
   - name: HYRAX_FITS_PATH
     value: /app/fits/fits.sh
   - name: INITIAL_ADMIN_EMAIL
@@ -100,6 +106,14 @@ extraEnvVars: &envVars
     value: '5'
   - name: RAILS_SERVE_STATIC_FILES
     value: 'true'
+  - name: REDIS_PASSWORD
+    value: $REDIS_PASSWORD
+  - name: REDIS_HOST
+    value: production-redis-master
+  - name: REDIS_URL
+    value: redis://:$REDIS_PASSWORD@production-redis-master
+  - name: SECRET_KEY_BASE
+    value: $SECRET_KEY_BASE
   - name: SENTRY_DSN
     value: https://bd539e7a5436434dac5abfdab595731a@o1008683.ingest.sentry.io/6745022
   - name: SMTP_ADDRESS
