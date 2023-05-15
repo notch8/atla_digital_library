@@ -81,12 +81,10 @@ extraEnvVars: &envVars
     value: /prod
   - name: FCREPO_HOST
     value: fcrepo.default
-  - name: FCREPO_PATH
-    value: rest
   - name: FCREPO_REST_PATH
-    value: rest
+    value: /fcrepo/rest
   - name: FEDORA_URL
-    value: http://fcrepo.default:8080/rest
+    value: http://fcrepo.default:8080/fcrepo/rest
   - name: INITIAL_ADMIN_EMAIL
     value: support@notch8.com
   - name: INITIAL_ADMIN_PASSWORD
