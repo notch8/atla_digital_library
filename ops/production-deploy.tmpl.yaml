@@ -81,6 +81,8 @@ extraEnvVars: &envVars
     value: hyrax20181216.cn4nhxyoxlnu.us-west-2.rds.amazonaws.com
   - name: DB_PORT
     value: '5432'
+  - name: DB_USERNAME
+    value: hydra_user
   - name: FCREPO_BASE_PATH
     value: /prod
   - name: FCREPO_HOST
