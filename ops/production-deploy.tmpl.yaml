@@ -77,6 +77,10 @@ extraEnvVars: &envVars
     value: $DATABASE_PASSWORD
   - name: DATABASE_USER
     value: hydra_user
+  - name: DB_HOST
+    value: hyrax20181216.cn4nhxyoxlnu.us-west-2.rds.amazonaws.com
+  - name: DB_PORT
+    value: '5432'
   - name: FCREPO_BASE_PATH
     value: /prod
   - name: FCREPO_HOST
