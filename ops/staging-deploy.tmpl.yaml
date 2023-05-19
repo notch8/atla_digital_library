@@ -83,8 +83,8 @@ extraEnvVars: &envVars
     value: /staging
   - name: FCREPO_HOST
     value: fcrepo.default
-  - name: FCREPO_PATH
-    value: /rest
+  - name: FCREPO_REST_PATH
+    value: rest
   - name: FEDORA_URL
     value: http://fcrepo.default:8080/rest
   - name: INITIAL_ADMIN_EMAIL
