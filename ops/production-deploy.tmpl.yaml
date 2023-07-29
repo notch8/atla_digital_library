@@ -86,13 +86,13 @@ extraEnvVars: &envVars
   - name: FCREPO_BASE_PATH
     value: /prod
   - name: FCREPO_HOST
-    value: fcrepo.default.svc.cluster.local
+    value: fcrepo.fcrepo.svc.cluster.local
   - name: FCREPO_REST_PATH
     value: rest
   - name: FCREPO_PORT
     value: '8080'
   - name: FEDORA_URL
-    value: http://fcrepo.default.svc.cluster.local:8080/rest
+    value: http://fcrepo.fcrepo.svc.cluster.local:8080/rest
   - name: INITIAL_ADMIN_EMAIL
     value: support@notch8.com
   - name: INITIAL_ADMIN_PASSWORD
@@ -199,7 +199,7 @@ redis:
     enabled: false
   password: $REDIS_PASSWORD
 
-externalFcrepoHost: fcrepo.default.svc.cluster.local
+externalFcrepoHost: fcrepo.fcrepo.svc.cluster.local
 externalPostgresql:
   host: hyrax20181216.cn4nhxyoxlnu.us-west-2.rds.amazonaws.com
   username: hydra_user

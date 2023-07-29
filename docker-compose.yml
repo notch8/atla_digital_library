@@ -114,7 +114,7 @@ services:
     entrypoint: ["sh", "-c"]
     command:
       - >
-        db-migrate-seed.sh
+        bundle && db-migrate-seed.sh
     depends_on:
       postgres:
         condition: service_started
