@@ -63,6 +63,16 @@ ingress:
     - host: dl.atla.com
       paths:
         - path: /
+  annotations: {
+    kubernetes.io/ingress.class: "nginx",
+    nginx.ingress.kubernetes.io/proxy-body-size: "0",
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  }
+  tls:
+    - hosts:
+        - atla.notch8.cloud
+        - dl.atla.com
+      secretName: notch8cloud
 
 extraEnvVars: &envVars
   - name: CONFDIR
