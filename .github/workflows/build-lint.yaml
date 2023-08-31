@@ -17,16 +17,16 @@ on:
 
 jobs:
   build:
-    uses: scientist-softserv/actions/.github/workflows/build.yaml@v0.0.13
+    uses: scientist-softserv/actions/.github/workflows/build.yaml@v0.0.14
     secrets: inherit
     with:
-      worker: true
-      target: hyrax-base
+      webTarget: hyrax-base
       workerTarget: hyrax-worker
       platforms: 'linux/amd64'
 
   lint:
     needs: build
-    uses: scientist-softserv/actions/.github/workflows/lint.yaml@v0.0.13
+    uses: scientist-softserv/actions/.github/workflows/lint.yaml@v0.0.14
     with:
-      worker: true
+      webTarget: hyrax-base
+      workerTarget: hyrax-worker
