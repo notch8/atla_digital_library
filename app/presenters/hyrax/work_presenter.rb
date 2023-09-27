@@ -40,14 +40,6 @@ module Hyrax
         representative_presenter.audio?
     end
 
-    def remote_manifest_url
-      url = solr_document.remote_manifest_url
-      return url if url.blank?
-
-      # Modify the URL scheme to use HTTPS
-      url.sub!("http://", "https://")
-    end
-
     def audio?
       representative_presenter&.audio? || resource_type.include?('Sound') || types&.include?('Sound')
     end
