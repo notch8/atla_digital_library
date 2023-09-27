@@ -156,7 +156,7 @@ Hyrax.config do |config|
     # Issue with Hyrax v 2.9.0 where IIIF has mixed content error when running with SSL enabled
     # See Samvera Slack thread https://samvera.slack.com/archives/C0F9JQJDQ/p1596718417351200?thread_ts=1596717896.350700&cid=C0F9JQJDQ
     uri.sub(/\Ahttp:/, 'https:')
-
+  end
   # config.iiif_info_url_builder = lambda do |_, _|
   #   ""
   # end
