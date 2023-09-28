@@ -93,10 +93,6 @@ vendor/engines
 public/branding/
 fits.log
 
-# local helm charts/deploy artifacts
-scratch
-/hyrax
-
 # yarn artifacts
 *node_modules*
 public/uv/
