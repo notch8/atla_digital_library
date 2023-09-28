@@ -16,15 +16,13 @@ module Hyrax
     end
 
     def universal_viewer_base_url
-      base_url = request&.base_url
-      base_url = base_url.sub(/\Ahttp:/, 'https:') if request&.ssl?
-      "#{base_url}/uv/uv.html"
+      https_base_url = base_url.replace("http://", "https://")
+      "#{https_base_url}/uv/uv.html"
     end
 
     def universal_viewer_config_url
-      base_url = request&.base_url
-      base_url = base_url.sub(/\Ahttp:/, 'https:') if request&.ssl?
-      "#{base_url}/uv/uv-config.json"
+      https_base_url = base_url.replace("http://", "https://")
+      "#{https_base_url}/uv/uv-config.json"
     end
   end
 end

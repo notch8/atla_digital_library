@@ -51,7 +51,7 @@ module Bulkrax
       if raw_metadata_xml["ComponentFileName"].present?
         parsed_metadata['file'] =
           [File.join(files_path,
-raw_metadata_xml["ComponentFileName"].downcase)]
+        raw_metadata_xml["ComponentFileName"].downcase)]
       end
       parsed_metadata[work_identifier] ||= [self.identifier]
       parsed_metadata['has_manifest'] = "1"
