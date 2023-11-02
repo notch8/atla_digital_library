@@ -1,0 +1,13 @@
+<!-- Override file from Hyrax 3.5 -->
+<% if !Rails.env.development? %>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6QL7MDR1HQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+ 
+  gtag('config', 'G-6QL7MDR1HQ');
+</script>
+<meta name="analytics-provider" content="google">
+<% end %>
