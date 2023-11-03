@@ -161,7 +161,8 @@ extraEnvVars: &envVars
     value: https://bd539e7a5436434dac5abfdab595731a@o1008683.ingest.sentry.io/6745022
   - name: DISABLE_SPRING
     value: "1"
-
+  - name: WORKER_COUNT
+    value: "5"
 
 worker:
   replicaCount: 1
