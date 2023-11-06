@@ -66,4 +66,10 @@ module ApplicationHelper
   def show_main_size
     has_iiif? ? 'col-sm-7' : 'col-sm-9'
   end
+
+  # rubocop:disable Rails/OutputSafety
+  def index_filter(options = {})
+    options[:value][0].truncate(300).to_s.html_safe
+  end
+  # rubocop:enable Rails/OutputSafety
 end
