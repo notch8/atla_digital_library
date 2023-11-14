@@ -2,35 +2,35 @@
 homepage:
   collections:
     - id: 1
-      anchor_text: The Edgar J. Goodspeed Manuscript Collection
-      anchor_text_two: University of Chicago Library
-      url: /collections/the-edgar-j-goodspeed-manuscript-collection #PATH TO COLLECTION
+      anchor_text: Spence Cross Collection
+      anchor_text_two: Columbia Theological Seminary John Bulow Campbell Library
+      url: /collections/spence-cross-collection #PATH TO COLLECTION
       image:
-        path_to_file: /img/uofc.jpg #DESIRED THUMBNAIL NAME
+        path_to_file: /img/spence-cross.jpg #DESIRED THUMBNAIL NAME
     - id: 2
-      anchor_text: Atlanta-Rome District CME Church Collection
-      anchor_text_two: Atlanta University Center Robert W. Woodruff Library
-      url: /collections/atlanta-rome-district-cme-church-collection #PATH TO COLLECTION
+      anchor_text: Emma Beckingsale
+      anchor_text_two: Carey Baptist College Ayson Clifford Library
+      url: /collections/emma-beckingsale #PATH TO COLLECTION
       image:
-        path_to_file: /img/atlanta.jpg #DESIRED THUMBNAIL NAME
+        path_to_file: /img/emma-beckingsale.jpg #DESIRED THUMBNAIL NAME
     - id: 3
-      anchor_text: Sermons of the Reverend Dr. William Augustus Jones, Jr.
-      anchor_text_two: Brooklyn College Library
-      url: /collections/sermons-of-the-reverend-dr-william-augustus-jones-jr #PATH TO COLLECTION
+      anchor_text: Resources for the Study of Protestantism in Puerto Rico
+      anchor_text_two: Seminario Evangélico de Puerto Rico
+      url: /collections/resources-for-the-study-of-protestantism-in-puerto-rico #PATH TO COLLECTION
       image:
-        path_to_file: /img/brooklyn-college-library.jpg #DESIRED THUMBNAIL NAME
+        path_to_file: /img/puerto-rico-evangelico.jpg #DESIRED THUMBNAIL NAME
     - id: 4
-      anchor_text: American Religious Sounds Project
-      anchor_text_two:
-      url: /collections/american-religious-sounds-project #PATH TO COLLECTION
-      image:
-        path_to_file: /img/arsp-flute.jpg #DESIRED THUMBNAIL NAME
-    - id: 5
       anchor_text: Philadelphia Congregations Early Records Project
       anchor_text_two:
       url: /collections/philadelphia-congregations-early-records-project #PATH TO COLLECTION
       image:
         path_to_file: /img/philadelphia.jpg #DESIRED THUMBNAIL NAME
+    - id: 5
+      anchor_text: Ecumenical Press Service
+      anchor_text_two: World Council of Churches
+      url: /collections/ecumenical-press-service #PATH TO COLLECTION
+      image:
+        path_to_file: /img/ecumenical-press-service.jpg #DESIRED THUMBNAIL NAME
     - id: 6
       anchor_text: Cooperative Digital Resources Initiative
       anchor_text_two:
@@ -40,20 +40,20 @@ homepage:
 
   exhibits:
     - id: 1
-      anchor_text: The Life and Ministry of Charles Wesley
-      anchor_text_two:
-      url: /exhibitions/exhibits/show/the-life-and-ministry #PATH TO exhibit
-      image:
-        path_to_file: /img/life-and-ministry.jpg #DESIRED THUMBNAIL NAME
-    - id: 2
-      anchor_text: Wish You Were Here
-      anchor_text_two:
-      url: /exhibitions/exhibits/show/wish-you-were-here #PATH TO exhibit
-      image:
-        path_to_file: /img/wish-you-were-here.jpg #DESIRED THUMBNAIL NAME
-    - id: 3
       anchor_text: 'Look Back in Anger: Anger, Religion, and Morality through the Ages'
       anchor_text_two:
       url: /exhibitions/exhibits/show/look-back-in-anger #PATH TO exhibit
       image:
         path_to_file: /img/look-back-in-anger.jpg #DESIRED THUMBNAIL NAME
+    - id: 2
+      anchor_text: The Life and Ministry of Charles Wesley
+      anchor_text_two:
+      url: /exhibitions/exhibits/show/the-life-and-ministry #PATH TO exhibit
+      image:
+        path_to_file: /img/life-and-ministry.jpg #DESIRED THUMBNAIL NAME
+    - id: 3
+      anchor_text: Wish You Were Here
+      anchor_text_two:
+      url: /exhibitions/exhibits/show/wish-you-were-here #PATH TO exhibit
+      image:
+        path_to_file: /img/wish-you-were-here.jpg #DESIRED THUMBNAIL NAME
