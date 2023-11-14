@@ -66,4 +66,8 @@ module ApplicationHelper
   def show_main_size
     has_iiif? ? 'col-sm-7' : 'col-sm-9'
   end
+
+  def truncate_text(options = {})
+    options[:value][0].truncate(300)
+  end
 end
