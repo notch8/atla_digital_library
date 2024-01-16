@@ -1,1 +1,0 @@
-ansistrano_git_branch: "{{deploy_sha}}"
