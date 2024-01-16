@@ -58,9 +58,6 @@ extraVolumeMounts: &volMounts
 ingress:
   enabled: true
   hosts:
-    - host: atla-staging.notch8.cloud
-      paths:
-        - path: /
     - host: dl-staging.atla.com
       paths:
         - path: /
@@ -70,7 +67,7 @@ ingress:
   }
   tls:
     - hosts:
-        - atla-staging.notch8.cloud
+        - dl-staging.atla.com
       secretName: notch8cloud
 
 extraEnvVars: &envVars
