@@ -1,5 +1,0 @@
-deploy_target: staging
-aws_tag: staging
-ansistrano_git_branch: "{{deploy_sha}}" 
-tomcat_url: internal-staging-solr-tomcat-internal-1165120183.us-west-2.elb.amazonaws.com
-hydra_db_host: hydra-staging.cn4nhxyoxlnu.us-west-2.rds.amazonaws.com 

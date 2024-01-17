@@ -1,3 +1,0 @@
----
-# roles/set_timezone/defaults/main.yml
-timezone: America/New_York

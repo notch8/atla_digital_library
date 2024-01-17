@@ -1,5 +1,0 @@
-- name: Rollback Rails App
-  hosts: "tag_Type_web"
-  user: ubuntu
-  roles:
-    - { role: ansistrano.rollback }
