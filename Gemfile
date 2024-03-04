@@ -5,8 +5,8 @@ gem 'rails', '~> 5.2'
 gem 'activejob-scheduler', git: 'https://github.com/notch8/activejob-scheduler.git'
 gem 'blacklight_range_limit'
 gem 'bootsnap'
-# gem 'bulkrax', '~> 7.0.0'
-gem 'bulkrax', path: 'vendor/engines/bulkrax'
+gem 'bulkrax', git: 'https://github.com/samvera/bulkrax.git', branch: 'oai-fixes'
+# gem 'bulkrax', path: 'vendor/engines/bulkrax'
 gem 'activerecord-nulldb-adapter'
 gem 'bixby', group: %i[development test]
 gem 'byebug', group: %i[development test]

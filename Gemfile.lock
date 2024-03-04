@@ -62,8 +62,10 @@ GIT
     samvera-nesting_indexer (2.0.0)
       dry-equalizer
 
-PATH
-  remote: vendor/engines/bulkrax
+GIT
+  remote: https://github.com/samvera/bulkrax.git
+  revision: 2fdc7ed0c9fcc01184fcc864e9af73638e14cce3
+  branch: oai-fixes
   specs:
     bulkrax (7.0.0)
       bagit (~> 0.4)
