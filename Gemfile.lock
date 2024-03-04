@@ -62,6 +62,25 @@ GIT
     samvera-nesting_indexer (2.0.0)
       dry-equalizer
 
+PATH
+  remote: vendor/engines/bulkrax
+  specs:
+    bulkrax (7.0.0)
+      bagit (~> 0.4)
+      coderay
+      denormalize_fields
+      iso8601 (~> 0.9.0)
+      kaminari
+      language_list (~> 1.2, >= 1.2.1)
+      libxml-ruby (~> 3.2.4)
+      loofah (>= 2.2.3)
+      oai (>= 0.4, < 2.x)
+      rack (>= 2.0.6)
+      rails (>= 5.1.6)
+      rdf (>= 2.0.2, < 4.0)
+      rubyzip
+      simple_form
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -202,6 +221,8 @@ GEM
       jquery-rails
       rails (>= 3.0)
       tether-rails
+    bootsnap (1.13.0)
+      msgpack (~> 1.2)
     bootstrap-sass (3.4.1)
       autoprefixer-rails (>= 5.2.1)
       sassc (>= 2.0.0)
@@ -218,21 +239,6 @@ GEM
       signet (~> 0.8)
       typhoeus
     builder (3.2.4)
-    bulkrax (7.0.0)
-      bagit (~> 0.4)
-      coderay
-      denormalize_fields
-      iso8601 (~> 0.9.0)
-      kaminari
-      language_list (~> 1.2, >= 1.2.1)
-      libxml-ruby (~> 3.2.4)
-      loofah (>= 2.2.3)
-      oai (>= 0.4, < 2.x)
-      rack (>= 2.0.6)
-      rails (>= 5.1.6)
-      rdf (>= 2.0.2, < 4.0)
-      rubyzip
-      simple_form
     byebug (10.0.2)
     cancancan (1.17.0)
     capybara (2.18.0)
@@ -660,6 +666,7 @@ GEM
     mini_mime (1.1.2)
     mini_portile2 (2.6.1)
     minitest (5.15.0)
+    msgpack (1.7.2)
     multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.4.0)
@@ -865,14 +872,11 @@ GEM
       rexml (~> 3.2)
     redic (1.5.3)
       hiredis
-    redis (5.1.0)
-      redis-client (>= 0.17.0)
-    redis-client (0.19.1)
-      connection_pool
+    redis (4.8.1)
     redis-namespace (1.11.0)
       redis (>= 4)
-    redlock (2.0.6)
-      redis-client (>= 0.14.1, < 1.0.0)
+    redlock (1.3.2)
+      redis (>= 3.0.0, < 6.0)
     regexp_parser (2.4.0)
     representable (3.2.0)
       declarative (< 0.1.0)
@@ -1094,7 +1098,8 @@ DEPENDENCIES
   activerecord-nulldb-adapter
   bixby
   blacklight_range_limit
-  bulkrax (~> 7.0.0)
+  bootsnap
+  bulkrax!
   byebug
   capybara (~> 2.13)
   coffee-rails (~> 4.2)
@@ -1129,6 +1134,9 @@ DEPENDENCIES
   pry-rails
   puma (~> 3.7)
   rails (~> 5.2)
+  redis (~> 4.0)
+  redis-namespace (~> 1.5)
+  redlock (~> 1.0)
   riiif (~> 1.1)
   rinku
   rsolr (~> 2.2)
@@ -1146,9 +1154,6 @@ DEPENDENCIES
   whenever
   willow_sword!
   xray-rails
-
-RUBY VERSION
-   ruby 2.5.3p105
 
 BUNDLED WITH
    1.17.3

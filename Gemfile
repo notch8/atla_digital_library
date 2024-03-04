@@ -1,11 +1,12 @@
 source 'https://rubygems.org'
-ruby '2.5.3'
 
 gem 'rails', '~> 5.2'
 
 gem 'activejob-scheduler', git: 'https://github.com/notch8/activejob-scheduler.git'
 gem 'blacklight_range_limit'
-gem 'bulkrax', '~> 7.0.0'
+gem 'bootsnap'
+# gem 'bulkrax', '~> 7.0.0'
+gem 'bulkrax', path: 'vendor/engines/bulkrax'
 gem 'activerecord-nulldb-adapter'
 gem 'bixby', group: %i[development test]
 gem 'byebug', group: %i[development test]
@@ -44,6 +45,9 @@ gem 'pronto-rails_schema', require: false
 gem 'pronto-rubocop', require: false
 gem 'pry-byebug', group: %i[development test]
 gem 'puma', '~> 3.7'
+gem 'redis', '~> 4.0'
+gem 'redis-namespace', '~> 1.5'
+gem 'redlock', '~> 1.0'
 gem 'riiif', '~> 1.1'
 gem 'rinku'
 gem 'rsolr', '~> 2.2'
